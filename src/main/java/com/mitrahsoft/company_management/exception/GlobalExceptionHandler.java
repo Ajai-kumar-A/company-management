@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException e){
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
