@@ -1,6 +1,8 @@
 package com.mitrahsoft.company_management.controller;
 
+import com.mitrahsoft.company_management.dto.CompanyReplaceReqDto;
 import com.mitrahsoft.company_management.dto.CompanyRequestDto;
+import com.mitrahsoft.company_management.dto.CompanyResponseDto;
 import com.mitrahsoft.company_management.dto.CompanyUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Company;
 import com.mitrahsoft.company_management.service.CompanyService;
@@ -22,18 +24,25 @@ public class CompanyController {
     }
 
     @PostMapping("/admin/create-company")
-    public ResponseEntity<Company> createCompany(@Valid @RequestBody CompanyRequestDto companyRequestDto){
+    public ResponseEntity<CompanyResponseDto> createCompany(@Valid @RequestBody CompanyRequestDto companyRequestDto){
         return new ResponseEntity<>(companyService.createCompany(companyRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/companies")
-    public ResponseEntity<List<Company>> fetchCompanies(){
+    public ResponseEntity<List<CompanyResponseDto>> fetchCompanies(){
         return new ResponseEntity<>(companyService.fetchCompanies(),HttpStatus.OK);
     }
 
-    @PutMapping("/admin/update-company/{companyId}")
-    public ResponseEntity<Company> updateCompany(@Valid @RequestBody CompanyUpdateReqDto companyUpdateReqDto, @PathVariable String companyId){
-        return new ResponseEntity<>(companyService.updateCompany(companyUpdateReqDto, companyId),HttpStatus.OK);
+    @PutMapping("/admin/replace-company/{companyId}")
+    public ResponseEntity<String> replaceCompany(@Valid @RequestBody CompanyReplaceReqDto companyReplaceReqDto, @PathVariable String companyId){
+        companyService.replaceCompany(companyReplaceReqDto, companyId);
+        return new ResponseEntity<>("Company details replaced successfully",HttpStatus.OK);
+    }
+
+    @PatchMapping("/admin/update-company/{companyId}")
+    public ResponseEntity<String> updateCompany(@Valid @RequestBody CompanyUpdateReqDto companyUpdateReqDto, @PathVariable String companyId){
+        companyService.updateCompany(companyUpdateReqDto, companyId);
+        return new ResponseEntity<>("Company details updated successfully",HttpStatus.OK);
     }
 
     @DeleteMapping("/admin/delete-company/{companyId}")
