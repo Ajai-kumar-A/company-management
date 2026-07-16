@@ -1,6 +1,7 @@
 package com.mitrahsoft.company_management.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -29,4 +30,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e){
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+    @ExceptionHandler(OfficialDetailsAlreadyExistException.class)
+    public ResponseEntity<String> handleOfficialDetailsAlreadyExist(
+            OfficialDetailsAlreadyExistException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

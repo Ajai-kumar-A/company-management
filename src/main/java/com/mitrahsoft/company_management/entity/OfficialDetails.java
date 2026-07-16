@@ -17,6 +17,7 @@ public class OfficialDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public Long officialId;
+    @Column(unique = true)
     public String officialMail;
     public String experience;
     public LocalDate joiningDate;
