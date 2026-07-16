@@ -1,6 +1,8 @@
 package com.mitrahsoft.company_management.service;
 
+import com.mitrahsoft.company_management.dto.CompanyReplaceReqDto;
 import com.mitrahsoft.company_management.dto.CompanyRequestDto;
+import com.mitrahsoft.company_management.dto.CompanyResponseDto;
 import com.mitrahsoft.company_management.dto.CompanyUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Company;
 import com.mitrahsoft.company_management.mapper.CompanyMapper;
@@ -10,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class CompanyService {
@@ -25,36 +26,30 @@ public class CompanyService {
     }
 
 
-    public Company createCompany(CompanyRequestDto companyRequestDto){
+    public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto){
         Company company = companyMapper.toEntity(companyRequestDto);
-        return companyRepository.save(company);
+        return companyMapper.toDto(companyRepository.save(company));
     }
 
-
-    public List<Company> fetchCompanies(){
-        return companyRepository.findAll();
+    public List<CompanyResponseDto> fetchCompanies(){
+        return companyMapper.toDtoList(companyRepository.findAll());
     }
 
+    public void replaceCompany(CompanyReplaceReqDto companyReplaceReqDto, String companyId){
+        Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
+        companyMapper.replaceEntityFromDto(companyReplaceReqDto, existingCompany);
+        companyRepository.save(existingCompany);
+    }
 
-    public Company updateCompany(CompanyUpdateReqDto companyUpdateReqDto, String companyId){
-        Optional<Company> companyopt = companyRepository.findById(companyId);
-        Company company = companyopt.orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
-
-        if(companyUpdateReqDto.companyName() != null && !companyUpdateReqDto.companyName().isEmpty()){
-            company.setCompanyName(companyUpdateReqDto.companyName());
-        }
-
-        if(companyUpdateReqDto.companyDomain() != null && !companyUpdateReqDto.companyDomain().isEmpty()){
-            company.setCompanyDomain(companyUpdateReqDto.companyDomain());
-        }
-
-        return companyRepository.save(company);
+    public void updateCompany(CompanyUpdateReqDto companyUpdateReqDto, String companyId){
+        Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
+        companyMapper.updateEntityFromDto(companyUpdateReqDto,existingCompany);
+        companyRepository.save(existingCompany);
     }
 
 
     public void deleteCompany(String companyId){
-        Optional<Company> companyopt = companyRepository.findById(companyId);
-        Company company = companyopt.orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
+        Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyRepository.deleteById(companyId);
     }
 }
