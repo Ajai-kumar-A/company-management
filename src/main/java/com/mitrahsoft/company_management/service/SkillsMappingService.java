@@ -1,16 +1,12 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.SkillsDto.SkillsRequestDto;
-import com.mitrahsoft.company_management.dto.SkillsDto.SkillsResponseDto;
+
 import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingRequestDto;
 import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingResponseDto;
 import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingUpdateDto;
 import com.mitrahsoft.company_management.entity.SkillMapping;
-import com.mitrahsoft.company_management.entity.Skills;
-import com.mitrahsoft.company_management.mapper.SkillsMapper;
 import com.mitrahsoft.company_management.mapper.SkillsMappingMapper;
 import com.mitrahsoft.company_management.repository.SkillsMappingRepository;
-import com.mitrahsoft.company_management.repository.SkillsRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

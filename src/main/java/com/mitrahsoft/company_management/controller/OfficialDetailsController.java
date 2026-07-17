@@ -37,7 +37,7 @@ public class OfficialDetailsController {
     @DeleteMapping("/delete-official-details/{officialId}")
     public ResponseEntity<String> deleteOfficialDetails(@PathVariable Long officialId){
         officialDetailsService.deleteOfficialDetails(officialId);
-        return new ResponseEntity<>("Company deleted successfully",HttpStatus.OK);
+        return new ResponseEntity<>("official detail deleted successfully",HttpStatus.OK);
     }
 
 }

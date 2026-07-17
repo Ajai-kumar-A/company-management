@@ -40,7 +40,7 @@ public class SkillMappingController {
     @DeleteMapping("/delete-skill-mapping/{skillMappingId}")
     public ResponseEntity<String> deleteSkillsMapping(@PathVariable String skillMappingId) {
         skillsMappingService.deleteSkillsMapping(skillMappingId);
-        return new ResponseEntity<>("skill deleted successfully", HttpStatus.OK);
+        return new ResponseEntity<>("skill mapping deleted successfully", HttpStatus.OK);
     }
 }
 
