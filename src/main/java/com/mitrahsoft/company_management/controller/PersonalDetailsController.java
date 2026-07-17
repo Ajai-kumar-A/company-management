@@ -21,7 +21,7 @@ public class PersonalDetailsController {
 
     @PostMapping("/add")
     public ResponseEntity<PersonalDetails> addPersonalDetails(@Valid @RequestBody PersonalDetailsRequestDto personalDetailsRequestDto){
-        return new ResponseEntity<>(personalDetailsService.createPersonalDetails(personalDetailsRequestDto), HttpStatus.OK);
+        return new ResponseEntity<>(personalDetailsService.createPersonalDetails(personalDetailsRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("getAll")
