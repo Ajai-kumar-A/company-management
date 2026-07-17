@@ -20,7 +20,7 @@ public class TechStackController {
 
     @PostMapping("/add")
     public ResponseEntity<TechStackDto> createStack(@Valid @RequestBody TechStackDto techStackDto){
-        return new ResponseEntity<>(techStackService.createTechStack(techStackDto), HttpStatus.OK);
+        return new ResponseEntity<>(techStackService.createTechStack(techStackDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")

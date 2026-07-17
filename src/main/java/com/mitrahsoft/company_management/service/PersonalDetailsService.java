@@ -4,6 +4,7 @@ import com.mitrahsoft.company_management.dto.PersonalDetails.PersonalDetailsRequ
 import com.mitrahsoft.company_management.entity.PersonalDetails;
 import com.mitrahsoft.company_management.mapper.PersonalDetailsMapper;
 import com.mitrahsoft.company_management.repository.PersonalDetailsRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class PersonalDetailsService {
 
     public PersonalDetails createPersonalDetails(PersonalDetailsRequestDto personalDetailsRequestDto) {
         PersonalDetails personalDetails = personalDetailsMapper.toEntity(personalDetailsRequestDto);
+        if (personalDetails.getPersonalMail().equals(personalDetailsRequestDto.getPersonalMail())){
+            throw new EntityExistsException("Personal details already exists");
+        }
         return personalDetailsRepository.save(personalDetails);
     }
 
