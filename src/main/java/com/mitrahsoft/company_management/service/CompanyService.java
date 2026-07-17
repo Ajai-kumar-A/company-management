@@ -1,9 +1,9 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.CompanyReplaceReqDto;
-import com.mitrahsoft.company_management.dto.CompanyRequestDto;
-import com.mitrahsoft.company_management.dto.CompanyResponseDto;
-import com.mitrahsoft.company_management.dto.CompanyUpdateReqDto;
+import com.mitrahsoft.company_management.dto.CompanyDto.CompanyReplaceReqDto;
+import com.mitrahsoft.company_management.dto.CompanyDto.CompanyRequestDto;
+import com.mitrahsoft.company_management.dto.CompanyDto.CompanyResponseDto;
+import com.mitrahsoft.company_management.dto.CompanyDto.CompanyUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Company;
 import com.mitrahsoft.company_management.mapper.CompanyMapper;
 import com.mitrahsoft.company_management.repository.CompanyRepository;

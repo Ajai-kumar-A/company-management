@@ -10,15 +10,13 @@ import lombok.Setter;
 @Table(name = "branch")
 @Getter
 @Setter
-@AllArgsConstructor@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor
 public class Branch {
 
     @Id
     private String branchId;
 
     private String branchLocation;
-
-    private Long employeesCount;
 
     @ManyToOne
     @JoinColumn(name = "company_id")
