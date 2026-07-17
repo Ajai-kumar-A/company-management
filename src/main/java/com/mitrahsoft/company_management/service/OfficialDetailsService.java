@@ -29,28 +29,19 @@ public class OfficialDetailsService {
          throw new OfficialDetailsAlreadyExistException("Employee Details already present");
      }
      OfficialDetails officialDetails =officialDetailsMapper.toEntity(officialDetailsRequestDto);
-     officeDetailsRepository.save(officialDetails);
-     return officialDetailsMapper.toDto(officialDetails);
+     return officialDetailsMapper.toDto(officeDetailsRepository.save(officialDetails));
  }
     public List<OfficialDetailsResponseDto> fetchOfficialDetails(){
-        List<OfficialDetails> officialDetails=officeDetailsRepository.findAll();
-        List<OfficialDetailsResponseDto> officialDetailsResponseDtos=new ArrayList<>();
-        for(OfficialDetails officialDetails1:officialDetails){
-            officialDetailsResponseDtos.add(officialDetailsMapper.toDto(officialDetails1));
-        }
-        return officialDetailsResponseDtos;
+        return officialDetailsMapper.toDtoList(officeDetailsRepository.findAll());
     }
     public OfficialDetailsResponseDto updateOfficialDetails(OfficialDetailsRequestDto officialDetailsRequestDto, Long officialId){
-        Optional<OfficialDetails> officialDetailsOptional = officeDetailsRepository.findById(officialId);
-        OfficialDetails officialDetails= officialDetailsOptional.orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
+        OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         officialDetailsMapper.updateEntityFromDto(officialDetailsRequestDto,officialDetails);
         OfficialDetails updated=officeDetailsRepository.save(officialDetails);
         return officialDetailsMapper.toDto(updated);
     }
     public void deleteOfficialDetails(Long officialId){
-        Optional<OfficialDetails> officialDetailsOptional = officeDetailsRepository.findById(officialId);
-        OfficialDetails officialDetails= officialDetailsOptional.orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
+        OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));;
         officeDetailsRepository.deleteById(officialId);
     }
-
 }
