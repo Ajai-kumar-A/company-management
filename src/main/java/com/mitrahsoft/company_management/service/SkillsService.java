@@ -29,14 +29,14 @@ public class SkillsService {
         return skillsMapper.toDtoList(skillsRepository.findAll());
     }
 
-    public SkillsResponseDto updateSkills(SkillsRequestDto skillsRequestDto, String skillId) {
+    public SkillsResponseDto updateSkills(SkillsRequestDto skillsRequestDto, Long skillId) {
         Skills skills = skillsRepository.findById(skillId).orElseThrow(() -> new NoSuchElementException("Skill Id Not Found"));
         skillsMapper.updateEntityFromDto(skillsRequestDto, skills);
         Skills updatedSkill = skillsRepository.save(skills);
         return skillsMapper.toDto(updatedSkill);
     }
 
-    public void deleteSkills(String skillId) {
+    public void deleteSkills(Long skillId) {
         Skills skills = skillsRepository.findById(skillId).orElseThrow(() -> new NoSuchElementException("Skill Id Not Found"));
         skillsRepository.deleteById(skillId);
     }

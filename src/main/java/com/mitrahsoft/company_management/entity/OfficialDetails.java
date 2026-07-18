@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,10 +17,14 @@ import java.time.LocalDate;
 public class OfficialDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long officialId;
+    private Long officialId;
     @Column(unique = true)
-    public String officialMail;
-    public String experience;
-    public LocalDate joiningDate;
-    public String phoneNumber;
+    private String officialMail;
+    private String experience;
+    private LocalDate joiningDate;
+    private String phoneNumber;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    @JsonIgnore
+    private Employee employee;
 }
