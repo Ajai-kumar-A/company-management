@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 
 @Data
-public class HardwareDetailsDto {
+public class HardwareRequestDto {
     @NotBlank(message = "Serial ID Required")
     private String serialId;
     @NotBlank(message = "Device Name Required")

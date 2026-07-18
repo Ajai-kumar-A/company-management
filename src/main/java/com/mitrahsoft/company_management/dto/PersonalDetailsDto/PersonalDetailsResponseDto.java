@@ -1,4 +1,4 @@
-package com.mitrahsoft.company_management.dto.PersonalDetails;
+package com.mitrahsoft.company_management.dto.PersonalDetailsDto;
 
 import lombok.Data;
 

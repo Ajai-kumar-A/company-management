@@ -1,6 +1,7 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.PersonalDetails.PersonalDetailsRequestDto;
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
 import com.mitrahsoft.company_management.entity.PersonalDetails;
 import com.mitrahsoft.company_management.mapper.PersonalDetailsMapper;
 import com.mitrahsoft.company_management.repository.PersonalDetailsRepository;
@@ -18,19 +19,19 @@ public class PersonalDetailsService {
     private final PersonalDetailsRepository personalDetailsRepository;
     private final PersonalDetailsMapper personalDetailsMapper;
 
-    public PersonalDetails createPersonalDetails(PersonalDetailsRequestDto personalDetailsRequestDto) {
+    public PersonalDetailsResponseDto createPersonalDetails(PersonalDetailsRequestDto personalDetailsRequestDto) {
         PersonalDetails personalDetails = personalDetailsMapper.toEntity(personalDetailsRequestDto);
-        if (personalDetails.getPersonalMail().equals(personalDetailsRequestDto.getPersonalMail())){
+        if (personalDetailsRepository.existsByPersonalMail(personalDetailsRequestDto.getPersonalMail())){
             throw new EntityExistsException("Personal details already exists");
         }
-        return personalDetailsRepository.save(personalDetails);
+        return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 
-    public List<PersonalDetails> findAllPersonalDetails() {
-        return personalDetailsRepository.findAll();
+    public List<PersonalDetailsResponseDto> findAllPersonalDetails() {
+        return personalDetailsMapper.toDtoList(personalDetailsRepository.findAll());
     }
 
-    public PersonalDetails updatePersonalDetails(Long personalId, PersonalDetailsRequestDto personalDetailsRequestDto) {
+    public PersonalDetailsResponseDto updatePersonalDetails(Long personalId, PersonalDetailsRequestDto personalDetailsRequestDto) {
         Optional<PersonalDetails> optionalPersonalDetails = personalDetailsRepository.findById(personalId);
         if (optionalPersonalDetails.isEmpty()) {
             throw new EntityNotFoundException("No person found with id: " + personalId);
@@ -40,7 +41,7 @@ public class PersonalDetailsService {
         personalDetails.setDob(personalDetailsRequestDto.getDob());
         personalDetails.setBloodGroup(personalDetailsRequestDto.getBloodGroup());
         personalDetails.setNativeAddress(personalDetailsRequestDto.getNativeAddress());
-        return personalDetailsRepository.save(personalDetails);
+        return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 
     public void deletePersonalDetails(Long personalId) {
