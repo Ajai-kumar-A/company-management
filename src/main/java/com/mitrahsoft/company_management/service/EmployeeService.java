@@ -3,6 +3,7 @@ package com.mitrahsoft.company_management.service;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.entity.Employee;
+import com.mitrahsoft.company_management.entity.OfficialDetails;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +15,33 @@ import java.util.NoSuchElementException;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
+
     }
 
     public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
         Employee employee = employeeMapper.toEntity(employeeRequestDto);
+        OfficialDetails officialDetails1=employee.getOfficialDetails();
+        if(officialDetails1!=null){
+            employee.setOfficialDetails(officialDetails1);
+            officialDetails1.setEmployee(employee);
+        }
         return employeeMapper.toDto(employeeRepository.save(employee));
     }
 
     public List<EmployeeResponseDto> findAllEmployees() {
         return employeeMapper.toDtoList(employeeRepository.findAll());
+    }
+    public EmployeeResponseDto getEmployee(Long id) {
+
+        Employee employee = employeeRepository.findByEmployeeId(id)
+                .orElseThrow(() -> new RuntimeException("Employee not found"));
+
+        return employeeMapper.toDto(employee);
     }
 
     public EmployeeResponseDto updateEmployee(EmployeeRequestDto employeeRequestDto, Long employeeId) {

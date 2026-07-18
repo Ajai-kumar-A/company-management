@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SkillsMappingRepository extends JpaRepository<SkillMapping,String> {
+public interface SkillsMappingRepository extends JpaRepository<SkillMapping,Long> {
 }

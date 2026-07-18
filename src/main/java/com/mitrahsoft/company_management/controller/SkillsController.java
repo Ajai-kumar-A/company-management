@@ -32,12 +32,12 @@ public class SkillsController {
     }
 
     @PutMapping("update-skills/{skillId}")
-    public ResponseEntity<SkillsResponseDto> updateSkills(@Valid @RequestBody SkillsRequestDto skillsRequestDto, @PathVariable String skillId) {
+    public ResponseEntity<SkillsResponseDto> updateSkills(@Valid @RequestBody SkillsRequestDto skillsRequestDto, @PathVariable Long skillId) {
         return new ResponseEntity<>(skillsService.updateSkills(skillsRequestDto, skillId), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-skills/{skillId}")
-    public ResponseEntity<String> deleteSkills(@PathVariable String skillId) {
+    public ResponseEntity<String> deleteSkills(@PathVariable Long skillId) {
         skillsService.deleteSkills(skillId);
         return new ResponseEntity<>("skill deleted successfully", HttpStatus.OK);
     }

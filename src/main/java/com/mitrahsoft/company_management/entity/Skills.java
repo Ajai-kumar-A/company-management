@@ -1,8 +1,6 @@
 package com.mitrahsoft.company_management.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Skills {
     @Id
-    @Column(unique = true)
-    private String skillId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long skillId;
     @Column(unique = true)
     private String skillName;
     private String skillCategory;

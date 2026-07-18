@@ -15,12 +15,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/skill-mapping")
 public class SkillMappingController {
+    @Autowired
+    private final SkillsMappingService skillsMappingService;
+
+
     public SkillMappingController(SkillsMappingService skillsMappingService) {
         this.skillsMappingService = skillsMappingService;
     }
-
-    @Autowired
-    public final SkillsMappingService skillsMappingService;
 
     @PostMapping("/create-skill-mapping")
     public ResponseEntity<SkillsMappingResponseDto> createSkillsMapping(@Valid @RequestBody SkillsMappingRequestDto skillsMappingRequestDto) {
@@ -33,12 +34,12 @@ public class SkillMappingController {
     }
 
     @PutMapping("update-skill-mapping/{skillMappingId}")
-    public ResponseEntity<SkillsMappingResponseDto> updateSkills(@Valid @RequestBody SkillsMappingUpdateDto skillsMappingUpdateDto, @PathVariable String skillMappingId) {
+    public ResponseEntity<SkillsMappingResponseDto> updateSkills(@Valid @RequestBody SkillsMappingUpdateDto skillsMappingUpdateDto, @PathVariable Long skillMappingId) {
         return new ResponseEntity<>(skillsMappingService.updateSkillsMapping(skillsMappingUpdateDto, skillMappingId), HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-skill-mapping/{skillMappingId}")
-    public ResponseEntity<String> deleteSkillsMapping(@PathVariable String skillMappingId) {
+    public ResponseEntity<String> deleteSkillsMapping(@PathVariable Long skillMappingId) {
         skillsMappingService.deleteSkillsMapping(skillMappingId);
         return new ResponseEntity<>("skill mapping deleted successfully", HttpStatus.OK);
     }

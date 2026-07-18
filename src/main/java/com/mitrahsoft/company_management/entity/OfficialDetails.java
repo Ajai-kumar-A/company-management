@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,4 +23,8 @@ public class OfficialDetails {
     private String experience;
     private LocalDate joiningDate;
     private String phoneNumber;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    @JsonIgnore
+    private Employee employee;
 }
