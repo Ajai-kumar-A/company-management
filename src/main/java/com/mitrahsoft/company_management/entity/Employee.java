@@ -6,20 +6,17 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Entity
+@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class OfficialDetails {
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long officialId;
-    @Column(unique = true)
-    private String officialMail;
-    private String experience;
-    private LocalDate joiningDate;
-    private String phoneNumber;
+    private Long employeeId;
+    private String employeeName;
+    private String employeeDesignation;
+    private Double employeeSalary;
 }

@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.exception;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = EntityNotFoundException.class)
     public ResponseEntity<String> handleEntityNotFoundException(EntityNotFoundException e){
-        return ResponseEntity.badRequest().body(e.getMessage());
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(OfficialDetailsAlreadyExistException.class)
     public ResponseEntity<String> handleOfficialDetailsAlreadyExist(
             OfficialDetailsAlreadyExistException ex) {
@@ -37,7 +39,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e){
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
+
+    @ExceptionHandler(value = EntityExistsException.class)
+    public ResponseEntity<String> handleEntityExistsException(EntityExistsException ex){
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        }
 }

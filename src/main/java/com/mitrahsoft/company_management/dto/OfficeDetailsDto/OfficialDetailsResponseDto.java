@@ -8,6 +8,5 @@ public record OfficialDetailsResponseDto(
         String experience,
         LocalDate joiningDate,
         String phoneNumber
-
 ) {
 }

@@ -1,19 +1,20 @@
 package com.mitrahsoft.company_management.dto.OfficeDetailsDto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public record OfficialDetailsRequestDto(
-        @NotBlank(message = "Company location should not be null or empty")
+        @NotBlank(message = "email should not be null or empty")
+        @Email
         String officialMail,
-        @NotBlank(message = "Company domain should not be null or empty")
+        @NotBlank(message = "Experience domain should not be null or empty")
         String experience,
-        @NotNull(message = "Company domain should not be null or empty")
+        @NotNull(message = "join date should not be null or empty")
         LocalDate joiningDate,
-        @NotBlank(message = "Company domain should not be null or empty")
+        @NotBlank(message = "Phone Number should not be null or empty")
         String phoneNumber
-
 ) {
 }

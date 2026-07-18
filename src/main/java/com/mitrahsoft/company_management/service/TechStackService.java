@@ -4,6 +4,7 @@ import com.mitrahsoft.company_management.dto.TechStack.TechStackDto;
 import com.mitrahsoft.company_management.entity.TechStack;
 import com.mitrahsoft.company_management.mapper.TechStackMapper;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,9 @@ public class TechStackService {
 
     public TechStackDto createTechStack(TechStackDto techStackDto) {
         TechStack techStack =  techStackMapper.toEntity(techStackDto);
+        if (techStack.getStackId().equals(techStackDto.getStackId())) {
+            throw new EntityExistsException("Stack already exists");
+        }
         return  techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
