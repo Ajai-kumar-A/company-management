@@ -31,9 +31,6 @@ public class BranchService {
 
     public BranchResponseDto createBranch(BranchRequestDto branchRequestDto){
         Company company = companyRepository.findById(branchRequestDto.companyId()).orElseThrow(()->new NoSuchElementException("Company Id not found!"));
-        if (branchRepository.existsById(branchRequestDto.branchId())) {
-            throw new IllegalArgumentException("Branch already exists");
-        }
         Branch branch = branchMapper.toEntity(branchRequestDto);
         branch.setCompany(company);
         return branchMapper.toDto(branchRepository.save(branch));
@@ -43,7 +40,7 @@ public class BranchService {
         return branchMapper.toDtoList(branchRepository.findAll());
     }
 
-    public void replaceBranch(BranchReplaceReqDto branchReplaceReqDto, String branchId){
+    public void replaceBranch(BranchReplaceReqDto branchReplaceReqDto, Long branchId){
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         Company company = companyRepository.findById(branchReplaceReqDto.companyId()).orElseThrow(()->new NoSuchElementException("Company Id not found!"));
         branchMapper.replaceEntityFromDto(branchReplaceReqDto, existingBranch);
@@ -52,7 +49,7 @@ public class BranchService {
         branchRepository.save(existingBranch);
     }
 
-    public void updateBranch(BranchUpdateReqDto branchUpdateReqDto, String branchId){
+    public void updateBranch(BranchUpdateReqDto branchUpdateReqDto, Long branchId){
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         branchMapper.updateEntityFromDto(branchUpdateReqDto,existingBranch);
         existingBranch.getCompany().getBranches().forEach(each-> {
@@ -64,7 +61,7 @@ public class BranchService {
     }
 
 
-    public void deleteBranch(String branchId){
+    public void deleteBranch(Long branchId){
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         existingBranch.getCompany().getBranches().remove(existingBranch);
         branchRepository.deleteById(branchId);

@@ -1,9 +1,9 @@
 package com.mitrahsoft.company_management.repository;
 
-import com.mitrahsoft.company_management.entity.Company;
+import com.mitrahsoft.company_management.entity.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company,Long> {
+public interface ProjectRepository extends JpaRepository<Project, Long> {
 }

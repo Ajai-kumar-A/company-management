@@ -6,24 +6,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "company")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Company {
-
+public class EmployeeProject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long companyId;
+    private Long  employeeProjectId;
 
-    private String companyName;
+    private String role;
 
-    private String companyDomain;
+    private String status;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    private List<Branch> branches;
+    @ManyToOne
+    @JoinColumn(name = "project_id")
+    private Project project;
 }
