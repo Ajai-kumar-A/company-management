@@ -5,6 +5,7 @@ import com.mitrahsoft.company_management.dto.CompanyDto.CompanyRequestDto;
 import com.mitrahsoft.company_management.dto.CompanyDto.CompanyResponseDto;
 import com.mitrahsoft.company_management.dto.CompanyDto.CompanyUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Company;
+import com.mitrahsoft.company_management.entity.EmployeeProject;
 import com.mitrahsoft.company_management.mapper.CompanyMapper;
 import com.mitrahsoft.company_management.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,20 +36,20 @@ public class CompanyService {
         return companyMapper.toDtoList(companyRepository.findAll());
     }
 
-    public void replaceCompany(CompanyReplaceReqDto companyReplaceReqDto, String companyId){
+    public void replaceCompany(CompanyReplaceReqDto companyReplaceReqDto, Long companyId){
         Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyMapper.replaceEntityFromDto(companyReplaceReqDto, existingCompany);
         companyRepository.save(existingCompany);
     }
 
-    public void updateCompany(CompanyUpdateReqDto companyUpdateReqDto, String companyId){
+    public void updateCompany(CompanyUpdateReqDto companyUpdateReqDto, Long companyId){
         Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyMapper.updateEntityFromDto(companyUpdateReqDto,existingCompany);
         companyRepository.save(existingCompany);
     }
 
 
-    public void deleteCompany(String companyId){
+    public void deleteCompany(Long companyId){
         Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyRepository.deleteById(companyId);
     }

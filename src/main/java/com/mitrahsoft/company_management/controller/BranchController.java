@@ -34,19 +34,19 @@ public class BranchController {
     }
 
     @PutMapping("/replace-branch/{branchId}")
-    public ResponseEntity<String> replaceBranch(@Valid @RequestBody BranchReplaceReqDto branchReplaceReqDto, @PathVariable String branchId){
+    public ResponseEntity<String> replaceBranch(@Valid @RequestBody BranchReplaceReqDto branchReplaceReqDto, @PathVariable Long branchId){
         branchService.replaceBranch(branchReplaceReqDto, branchId);
         return new ResponseEntity<>("Branch details replaced successfully",HttpStatus.OK);
     }
 
     @PatchMapping("/update-branch/{branchId}")
-    public ResponseEntity<String> updateBranch(@Valid @RequestBody BranchUpdateReqDto branchUpdateReqDto, @PathVariable String branchId){
+    public ResponseEntity<String> updateBranch(@Valid @RequestBody BranchUpdateReqDto branchUpdateReqDto, @PathVariable Long branchId){
         branchService.updateBranch(branchUpdateReqDto, branchId);
         return new ResponseEntity<>("Branch details updated successfully",HttpStatus.OK);
     }
 
     @DeleteMapping("/delete-branch/{branchId}")
-    public ResponseEntity<String> deleteBranch(@PathVariable String branchId){
+    public ResponseEntity<String> deleteBranch(@PathVariable Long branchId){
         branchService.deleteBranch(branchId);
         return new ResponseEntity<>("Branch deleted successfully",HttpStatus.OK);
     }

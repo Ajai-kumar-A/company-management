@@ -1,7 +1,7 @@
 package com.mitrahsoft.company_management.dto.CompanyDto;
 
 public record BranchListResDto(
-        String branchId,
+        Long branchId,
         String branchLocation
 ) {
 }
