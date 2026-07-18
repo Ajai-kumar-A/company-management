@@ -1,7 +1,7 @@
 package com.mitrahsoft.company_management.controller;
 
-import com.mitrahsoft.company_management.dto.PersonalDetails.PersonalDetailsRequestDto;
-import com.mitrahsoft.company_management.entity.PersonalDetails;
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
 import com.mitrahsoft.company_management.service.PersonalDetailsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -16,21 +16,21 @@ import java.util.List;
 @RequestMapping("/personal-info")
 @RequiredArgsConstructor
 public class PersonalDetailsController {
-    @Autowired
-    private PersonalDetailsService personalDetailsService;
+
+    private final PersonalDetailsService personalDetailsService;
 
     @PostMapping("/add")
-    public ResponseEntity<PersonalDetails> addPersonalDetails(@Valid @RequestBody PersonalDetailsRequestDto personalDetailsRequestDto){
+    public ResponseEntity<PersonalDetailsResponseDto> addPersonalDetails(@Valid @RequestBody PersonalDetailsRequestDto personalDetailsRequestDto){
         return new ResponseEntity<>(personalDetailsService.createPersonalDetails(personalDetailsRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("getAll")
-    public ResponseEntity<List<PersonalDetails>> getAllPersonalDetails(){
+    public ResponseEntity<List<PersonalDetailsResponseDto>> getAllPersonalDetails(){
         return new ResponseEntity<>(personalDetailsService.findAllPersonalDetails(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<PersonalDetails> updatePersonalDetails(@PathVariable Long id, @Valid @RequestBody PersonalDetailsRequestDto personalDetailsRequestDto){
+    public ResponseEntity<PersonalDetailsResponseDto> updatePersonalDetails(@PathVariable Long id, @Valid @RequestBody PersonalDetailsRequestDto personalDetailsRequestDto){
         return new ResponseEntity<>(personalDetailsService.updatePersonalDetails(id,personalDetailsRequestDto), HttpStatus.OK);
     }
 

@@ -1,6 +1,7 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.HardwareDto.HardwareDetailsDto;
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareRequestDto;
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
 import com.mitrahsoft.company_management.entity.Hardware;
 import com.mitrahsoft.company_management.mapper.HardwareMapper;
 import com.mitrahsoft.company_management.repository.HardwareRepository;
@@ -19,37 +20,37 @@ public class HardwareService {
     private final HardwareRepository hardwareRepository;
     private  final HardwareMapper hardwareMapper;
 
-    public HardwareDetailsDto createHardware(HardwareDetailsDto hardwareDetailsDto) {
-        Hardware hardware = hardwareMapper.toEntity(hardwareDetailsDto);
-        if (hardware.getSerialId().equals(hardwareDetailsDto.getSerialId())) {
+    public HardwareResponseDto createHardware(HardwareRequestDto hardwareRequestDto) {
+        Hardware hardware = hardwareMapper.toEntity(hardwareRequestDto);
+        if (hardwareRepository.existsBySerialId(hardwareRequestDto.getSerialId())) {
             throw new EntityExistsException("Hardware already exists");
         }
         return hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
 
-    public List<HardwareDetailsDto> findAllHardware() {
+    public List<HardwareResponseDto> findAllHardware() {
         return hardwareMapper.toDto(hardwareRepository.findAll());
     }
 
-    public HardwareDetailsDto updateHardware(String serialId, HardwareDetailsDto hardwareDetailsDto) {
-        Optional<Hardware> hardwareOptional = hardwareRepository.findById(serialId);
+    public HardwareResponseDto updateHardware(Long id, HardwareRequestDto hardwareRequestDto) {
+        Optional<Hardware> hardwareOptional = hardwareRepository.findById(id);
         if (hardwareOptional.isEmpty()) {
-            throw new NoSuchElementException("No Hardware found with serial id " + serialId);
+            throw new NoSuchElementException("No Hardware found with id " + id);
         }
         Hardware hardware =  hardwareOptional.get();
-        hardware.setSerialId(hardwareDetailsDto.getSerialId());
-        hardware.setDeviceName(hardwareDetailsDto.getDeviceName());
-        hardware.setModel(hardwareDetailsDto.getModel());
-        hardware.setBrand(hardwareDetailsDto.getBrand());
+        hardware.setSerialId(hardwareRequestDto.getSerialId());
+        hardware.setDeviceName(hardwareRequestDto.getDeviceName());
+        hardware.setModel(hardwareRequestDto.getModel());
+        hardware.setBrand(hardwareRequestDto.getBrand());
         return  hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
 
-    public String  deleteHardware(String serialId) {
-        Optional<Hardware> hardwareOptional = hardwareRepository.findById(serialId);
+    public String  deleteHardware(Long id) {
+        Optional<Hardware> hardwareOptional = hardwareRepository.findById(id);
         if (hardwareOptional.isEmpty()) {
-            throw new NoSuchElementException("No Hardware found with serial id " + serialId);
+            throw new NoSuchElementException("No Hardware found with id " + id);
         }
-        hardwareRepository.deleteById(serialId);
+        hardwareRepository.deleteById(id);
         return "Hardware Details has been Deleted!";
     }
 }

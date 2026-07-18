@@ -1,6 +1,7 @@
 package com.mitrahsoft.company_management.controller;
 
-import com.mitrahsoft.company_management.dto.HardwareDto.HardwareDetailsDto;
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareRequestDto;
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
 import com.mitrahsoft.company_management.service.HardwareService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,26 +16,26 @@ import java.util.List;
 @RequestMapping("/hardware-info")
 @RequiredArgsConstructor
 public class HardwareController {
-    @Autowired
+
     private final HardwareService hardwareService;
 
     @PostMapping("/add")
-    public ResponseEntity<HardwareDetailsDto> addHardware(@Valid @RequestBody HardwareDetailsDto hardwareDetailsDto) {
-        return new ResponseEntity<>(hardwareService.createHardware(hardwareDetailsDto), HttpStatus.CREATED);
+    public ResponseEntity<HardwareResponseDto> addHardware(@Valid @RequestBody HardwareRequestDto hardwareRequestDto) {
+        return new ResponseEntity<>(hardwareService.createHardware(hardwareRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<HardwareDetailsDto>> getAllHardware(){
+    public ResponseEntity<List<HardwareResponseDto>> getAllHardware(){
         return new ResponseEntity<>(hardwareService.findAllHardware(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HardwareDetailsDto>  updateHardware(@PathVariable String id,@Valid @RequestBody HardwareDetailsDto hardwareDetailsDto){
-        return new ResponseEntity<>(hardwareService.updateHardware(id,hardwareDetailsDto), HttpStatus.OK);
+    public ResponseEntity<HardwareResponseDto>  updateHardware(@PathVariable Long id, @Valid @RequestBody HardwareRequestDto hardwareRequestDto){
+        return new ResponseEntity<>(hardwareService.updateHardware(id, hardwareRequestDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<String> removeHardware(@PathVariable String id){
+    public ResponseEntity<String> removeHardware(@PathVariable Long id){
         return new ResponseEntity<>(hardwareService.deleteHardware(id), HttpStatus.OK);
     }
 }

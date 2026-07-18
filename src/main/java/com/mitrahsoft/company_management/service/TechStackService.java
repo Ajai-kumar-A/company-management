@@ -1,6 +1,7 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.TechStack.TechStackDto;
+import com.mitrahsoft.company_management.dto.TechStackDto.TechStackRequestDto;
+import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
 import com.mitrahsoft.company_management.entity.TechStack;
 import com.mitrahsoft.company_management.mapper.TechStackMapper;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
@@ -18,30 +19,34 @@ public class TechStackService {
     private final TechStackRepository techStackRepository;
     private final TechStackMapper techStackMapper;
 
-    public TechStackDto createTechStack(TechStackDto techStackDto) {
-        TechStack techStack =  techStackMapper.toEntity(techStackDto);
-        if (techStack.getStackId().equals(techStackDto.getStackId())) {
+    public TechStackResponseDto createTechStack(TechStackRequestDto techStackRequestDto) {
+        TechStack techStack =  techStackMapper.toEntity(techStackRequestDto);
+        if (techStackRepository.existsByStackId(techStackRequestDto.getStackId())) {
             throw new EntityExistsException("Stack already exists");
         }
         return  techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
-    public List<TechStackDto> findAllTechStack() {
+    public List<TechStackResponseDto> findAllTechStack() {
         return techStackMapper.toDtoList(techStackRepository.findAll());
     }
 
-    public TechStackDto updateTechStack(String id, TechStackDto techStackDto) {
+    public TechStackResponseDto updateTechStack(Long id, TechStackRequestDto techStackRequestDto) {
         Optional<TechStack> techStackOptional = techStackRepository.findById(id);
         if (techStackOptional.isEmpty()) {
             throw new EntityNotFoundException("Tech Stack Not Found!");
         }
+        if (techStackRepository.existsByStackId(techStackRequestDto.getStackId()) || techStackRepository.existsByStackName(techStackRequestDto.getStackName())) {
+            throw new EntityExistsException("Stack already exists");
+        }
         TechStack techStack = techStackOptional.get();
-        techStack.setStackName(techStackDto.getStackName());
-        techStack.setStackCategory(techStackDto.getStackCategory());
+        techStack.setStackId(techStackRequestDto.getStackId());
+        techStack.setStackName(techStackRequestDto.getStackName());
+        techStack.setStackCategory(techStackRequestDto.getStackCategory());
         return  techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
-    public String deleteTechStack(String id) {
+    public String deleteTechStack(Long id) {
         Optional<TechStack> techStackOptional = techStackRepository.findById(id);
         if (techStackOptional.isEmpty()) {
             throw new EntityNotFoundException("Tech Stack Not Found!");
