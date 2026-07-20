@@ -7,7 +7,6 @@ import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsR
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsResponseDto;
 import com.mitrahsoft.company_management.dto.ProjectDto.EmpProjectListDto;
 import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingResponseDto;
-import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
 
 public record EmployeeResponseDto(
         Long employeeId,
