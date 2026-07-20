@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class HardwareRequestDto {
+    private Long employeeId;
     @NotBlank(message = "Serial ID Required")
     private String serialId;
     @NotBlank(message = "Device Name Required")

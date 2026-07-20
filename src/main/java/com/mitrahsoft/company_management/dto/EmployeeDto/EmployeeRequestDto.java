@@ -2,6 +2,7 @@ package com.mitrahsoft.company_management.dto.EmployeeDto;
 
 
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsRequestDto;
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,7 +14,9 @@ public record EmployeeRequestDto(
         @NotNull(message = "Employee Salary Should not be null")
         Double employeeSalary,
         OfficialDetailsRequestDto officialDetails,
+        PersonalDetailsRequestDto personalDetails,
         Long skillMappingId,
+        Long hardwareId,
         Long techStackId
 ) {
 }

@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +22,8 @@ public class PersonalDetails {
     private String bloodGroup;
     private String nativeAddress;
 
-//    @OneToOne
-//    @JoinColumn(name = "employee_id")
-//    private Employee employee;
+    @OneToOne
+    @JoinColumn(name = "employee_id")
+    @JsonIgnore
+    private Employee employee;
 }

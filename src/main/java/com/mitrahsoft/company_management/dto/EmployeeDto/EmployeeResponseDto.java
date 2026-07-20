@@ -1,10 +1,12 @@
 package com.mitrahsoft.company_management.dto.EmployeeDto;
 import java.util.List;
 
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
+
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsResponseDto;
 import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingResponseDto;
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
-import com.mitrahsoft.company_management.entity.OfficialDetails;
 
 public record EmployeeResponseDto(
         String employeeName,
@@ -12,6 +14,8 @@ public record EmployeeResponseDto(
         Double employeeSalary,
         OfficialDetailsResponseDto officialDetails,
         TechStackResponseDto techStack,
-        List<SkillsMappingResponseDto> skillMappings
+        List<SkillsMappingResponseDto> skillMappings,
+        PersonalDetailsResponseDto personalDetails,
+        List<HardwareResponseDto> hardwaresList
 ) {
 }

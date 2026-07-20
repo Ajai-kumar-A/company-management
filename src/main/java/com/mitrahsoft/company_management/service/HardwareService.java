@@ -2,8 +2,10 @@ package com.mitrahsoft.company_management.service;
 
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareRequestDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
+import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.Hardware;
 import com.mitrahsoft.company_management.mapper.HardwareMapper;
+import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.HardwareRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +21,16 @@ public class HardwareService {
 
     private final HardwareRepository hardwareRepository;
     private  final HardwareMapper hardwareMapper;
+    private final EmployeeRepository employeeRepository;
 
     public HardwareResponseDto createHardware(HardwareRequestDto hardwareRequestDto) {
+        Employee employee = employeeRepository.findById(hardwareRequestDto.getEmployeeId()).orElseThrow(() -> new RuntimeException("Employee not found"));
         Hardware hardware = hardwareMapper.toEntity(hardwareRequestDto);
         if (hardwareRepository.existsBySerialId(hardwareRequestDto.getSerialId())) {
             throw new EntityExistsException("Hardware already exists");
         }
+        hardware.setEmployee(employee);
+        employee.getHardwaresList().add(hardware);
         return hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
 

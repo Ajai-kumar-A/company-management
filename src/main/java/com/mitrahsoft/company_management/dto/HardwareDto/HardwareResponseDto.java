@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class HardwareResponseDto {
-    private Long id;
+    private Long hardwareId;
     private String serialId;
     private String deviceName;
     private String brand;

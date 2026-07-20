@@ -11,7 +11,11 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
             "skillMappings",
             "skillMappings.skills",
             "officialDetails",
-            "techStack"
+            "techStack",
+            "officialDetails",
+            "personalDetails",
+            "hardwaresList"
+
     })
     Optional<Employee> findByEmployeeId(Long employeeId);
 }
