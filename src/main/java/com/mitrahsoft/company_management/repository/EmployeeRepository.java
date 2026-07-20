@@ -10,7 +10,8 @@ public interface EmployeeRepository extends JpaRepository<Employee,Long> {
     @EntityGraph(attributePaths = {
             "skillMappings",
             "skillMappings.skills",
-            "officialDetails"
+            "officialDetails",
+            "techStack"
     })
     Optional<Employee> findByEmployeeId(Long employeeId);
 }

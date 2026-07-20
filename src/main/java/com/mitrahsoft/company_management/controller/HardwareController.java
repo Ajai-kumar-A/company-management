@@ -5,7 +5,6 @@ import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
 import com.mitrahsoft.company_management.service.HardwareService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

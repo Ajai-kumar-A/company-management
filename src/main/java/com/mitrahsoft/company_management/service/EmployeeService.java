@@ -4,8 +4,11 @@ import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.OfficialDetails;
+import com.mitrahsoft.company_management.entity.TechStack;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
+import com.mitrahsoft.company_management.repository.TechStackRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +18,26 @@ import java.util.NoSuchElementException;
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final TechStackRepository techStackRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper) {
+    public EmployeeService(EmployeeRepository employeeRepository, EmployeeMapper employeeMapper, TechStackRepository techStackRepository) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
-
+        this.techStackRepository = techStackRepository;
     }
 
-    public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
-        Employee employee = employeeMapper.toEntity(employeeRequestDto);
-        OfficialDetails officialDetails1=employee.getOfficialDetails();
-        if(officialDetails1!=null){
-            employee.setOfficialDetails(officialDetails1);
-            officialDetails1.setEmployee(employee);
+    public EmployeeResponseDto createEmployee(EmployeeRequestDto dto) {
+        Employee employee = employeeMapper.toEntity(dto);
+        TechStack techStack = techStackRepository.findById(dto.techStackId())
+                .orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
+        employee.setTechStack(techStack);
+        OfficialDetails officialDetails = employee.getOfficialDetails();
+        if (officialDetails != null) {
+            officialDetails.setEmployee(employee);
         }
-        return employeeMapper.toDto(employeeRepository.save(employee));
+        Employee savedEmployee = employeeRepository.save(employee);
+        return employeeMapper.toDto(savedEmployee);
     }
 
     public List<EmployeeResponseDto> findAllEmployees() {
@@ -44,9 +51,13 @@ public class EmployeeService {
         return employeeMapper.toDto(employee);
     }
 
-    public EmployeeResponseDto updateEmployee(EmployeeRequestDto employeeRequestDto, Long employeeId) {
-        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new NoSuchElementException("Employee Id Not Found"));
-        employeeMapper.updateEntityFromDto(employeeRequestDto, employee);
+    public EmployeeResponseDto updateEmployee(EmployeeRequestDto dto, Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new NoSuchElementException("Employee Id Not Found"));
+        employeeMapper.updateEntityFromDto(dto, employee);
+        TechStack techStack = techStackRepository.findById(dto.techStackId())
+                .orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
+        employee.setTechStack(techStack);
         Employee updatedEmployee = employeeRepository.save(employee);
         return employeeMapper.toDto(updatedEmployee);
     }

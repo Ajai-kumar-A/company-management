@@ -26,4 +26,7 @@ public class Employee {
     private List<SkillMapping> skillMappings = new ArrayList<>();
     @OneToOne(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private OfficialDetails officialDetails;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stack_id")
+    private TechStack techStack;
 }
