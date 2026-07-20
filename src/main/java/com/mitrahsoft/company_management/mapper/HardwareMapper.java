@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.mapper;
 
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareListResDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareRequestDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
 import com.mitrahsoft.company_management.entity.Hardware;
@@ -15,6 +16,6 @@ public interface HardwareMapper {
     @Mapping(target = "employeeId",source = "employee.employeeId")
     HardwareResponseDto toDto(Hardware hardware);
 
-    List<HardwareResponseDto> toDto(List<Hardware> hardwareList);
+    List<HardwareListResDto> toDtoList(List<Hardware> hardwareList);
 
 }

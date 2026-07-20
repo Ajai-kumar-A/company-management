@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 public record SkillsRequestDto (
         @NotBlank(message = "Skill name should not be null or empty")
         String skillName,
-        @NotBlank(message = "Skill name should not be null or empty")
+        @NotBlank(message = "Skill category should not be null or empty")
         String skillCategory
 ){
 }

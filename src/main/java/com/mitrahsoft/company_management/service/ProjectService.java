@@ -24,7 +24,6 @@ public class ProjectService {
         this.projectMapper = projectMapper;
     }
 
-
     public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto){
         Project project = projectMapper.toEntity(projectRequestDto);
         return projectMapper.toDto(projectRepository.save(project));

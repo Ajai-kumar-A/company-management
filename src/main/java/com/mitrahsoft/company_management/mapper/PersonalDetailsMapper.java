@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.mapper;
 
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsListResDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
 import com.mitrahsoft.company_management.entity.PersonalDetails;
@@ -14,6 +15,6 @@ public interface PersonalDetailsMapper {
     PersonalDetails toEntity(PersonalDetailsRequestDto personalDetailsRequestDto);
     @Mapping(target = "employeeId",source = "employee.employeeId")
     PersonalDetailsResponseDto toDto(PersonalDetails personalDetails);
-    List<PersonalDetailsResponseDto> toDtoList(List<PersonalDetails> personalDetailsList);
+    List<PersonalDetailsListResDto> toDtoList(List<PersonalDetails> personalDetailsList);
 
 }

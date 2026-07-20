@@ -3,22 +3,18 @@ package com.mitrahsoft.company_management.mapper;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Employee;
 
-import org.mapstruct.MapMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
+import org.mapstruct.*;
 
 import java.util.List;
-@Mapper(componentModel = "spring",uses = EmployeeProjectMapper.class)
+@Mapper(componentModel = "spring",uses = {EmployeeProjectMapper.class, PersonalDetailsMapper.class, OfficialDetailsMapper.class, TechStackMapper.class}, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EmployeeMapper {
-    @Mapping(target = "techStack", ignore = true)
     Employee toEntity(EmployeeRequestDto employeeRequestDto);
     @Mapping(target = "branchId", source = "branch.branchId")
     @Mapping(target = "stackId" ,source = "techStack.id")
     EmployeeResponseDto toDto(Employee employee);
-    @Mapping(target = "techStack", ignore = true)
-    void updateEntityFromDto(EmployeeRequestDto employeeRequestDto , @MappingTarget Employee employee);
+    void updateEntityFromDto(EmployeeUpdateReqDto employeeUpdateReqDto , @MappingTarget Employee employee);
     List<EmployeeResponseDto> toDtoList(List<Employee> employeeList);
 }

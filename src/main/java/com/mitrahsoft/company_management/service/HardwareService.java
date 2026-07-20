@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.service;
 
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareListResDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareRequestDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
 import com.mitrahsoft.company_management.entity.Employee;
@@ -33,8 +34,8 @@ public class HardwareService {
         employee.getHardwaresList().add(hardware);
         return hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
-    public List<HardwareResponseDto> findAllHardware() {
-        return hardwareMapper.toDto(hardwareRepository.findAll());
+    public List<HardwareListResDto> findAllHardware() {
+        return hardwareMapper.toDtoList(hardwareRepository.findAll());
     }
 
     public HardwareResponseDto updateHardware(Long id, HardwareRequestDto hardwareRequestDto) {

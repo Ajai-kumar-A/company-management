@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.controller;
 
+import com.mitrahsoft.company_management.dto.HardwareDto.HardwareListResDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareRequestDto;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareResponseDto;
 import com.mitrahsoft.company_management.service.HardwareService;
@@ -24,7 +25,7 @@ public class HardwareController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<HardwareResponseDto>> getAllHardware(){
+    public ResponseEntity<List<HardwareListResDto>> getAllHardware(){
         return new ResponseEntity<>(hardwareService.findAllHardware(), HttpStatus.OK);
     }
 
