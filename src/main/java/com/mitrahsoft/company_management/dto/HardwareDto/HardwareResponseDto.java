@@ -9,4 +9,5 @@ public class HardwareResponseDto {
     private String deviceName;
     private String brand;
     private String model;
+    private Long employeeId;
 }

@@ -4,6 +4,7 @@ import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsR
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
 import com.mitrahsoft.company_management.entity.PersonalDetails;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 public interface PersonalDetailsMapper {
 
     PersonalDetails toEntity(PersonalDetailsRequestDto personalDetailsRequestDto);
+    @Mapping(target = "employeeId",source = "employee.employeeId")
     PersonalDetailsResponseDto toDto(PersonalDetails personalDetails);
     List<PersonalDetailsResponseDto> toDtoList(List<PersonalDetails> personalDetailsList);
 

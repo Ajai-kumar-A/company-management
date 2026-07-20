@@ -33,7 +33,6 @@ public class HardwareService {
         employee.getHardwaresList().add(hardware);
         return hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
-
     public List<HardwareResponseDto> findAllHardware() {
         return hardwareMapper.toDto(hardwareRepository.findAll());
     }

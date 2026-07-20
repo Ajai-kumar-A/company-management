@@ -2,26 +2,26 @@ package com.mitrahsoft.company_management.service;
 
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
-import com.mitrahsoft.company_management.entity.Branch;
-import com.mitrahsoft.company_management.entity.Employee;
-import com.mitrahsoft.company_management.entity.OfficialDetails;
-import com.mitrahsoft.company_management.entity.TechStack;
+import com.mitrahsoft.company_management.entity.*;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.BranchRepository;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final BranchRepository branchRepository;
     private final EmployeeMapper employeeMapper;
     private final TechStackRepository techStackRepository;
+    private final BranchRepository branchRepository;
 
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository,TechStackRepository techStackRepository,BranchRepository branchRepository, EmployeeMapper employeeMapper) {
@@ -35,12 +35,15 @@ public class EmployeeService {
         Branch branch = branchRepository.findById(employeeRequestDto.branchId()).orElseThrow(()-> new NoSuchElementException("Branch Id not found!"));
         TechStack techStack = techStackRepository.findById(employeeRequestDto.techStackId()).orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
         Employee employee = employeeMapper.toEntity(employeeRequestDto);
+        OfficialDetails officialDetails = employee.getOfficialDetails();
         employee.setBranch(branch);
         employee.setTechStack(techStack);
-        OfficialDetails officialDetails1=employee.getOfficialDetails();
-        if(officialDetails1!=null){
-            employee.setOfficialDetails(officialDetails1);
-            officialDetails1.setEmployee(employee);
+        if (officialDetails != null) {
+            officialDetails.setEmployee(employee);
+        }
+        PersonalDetails personalDetails = employee.getPersonalDetails();
+        if (personalDetails != null) {
+            personalDetails.setEmployee(employee);
         }
         return employeeMapper.toDto(employeeRepository.save(employee));
     }
@@ -49,8 +52,8 @@ public class EmployeeService {
         return employeeMapper.toDtoList(employeeRepository.findAll());
     }
 
-    public EmployeeResponseDto getEmployee(Long id) {
-        Employee employee = employeeRepository.findByEmployeeId(id)
+    public EmployeeResponseDto getEmployee(Long employeeId) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
         return employeeMapper.toDto(employee);
     }

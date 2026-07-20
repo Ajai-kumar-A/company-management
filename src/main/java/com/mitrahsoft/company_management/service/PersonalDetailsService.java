@@ -2,8 +2,10 @@ package com.mitrahsoft.company_management.service;
 
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
+import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.PersonalDetails;
 import com.mitrahsoft.company_management.mapper.PersonalDetailsMapper;
+import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.PersonalDetailsRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -18,12 +21,15 @@ import java.util.Optional;
 public class PersonalDetailsService {
     private final PersonalDetailsRepository personalDetailsRepository;
     private final PersonalDetailsMapper personalDetailsMapper;
+    private final EmployeeRepository employeeRepository;
 
     public PersonalDetailsResponseDto createPersonalDetails(PersonalDetailsRequestDto personalDetailsRequestDto) {
         PersonalDetails personalDetails = personalDetailsMapper.toEntity(personalDetailsRequestDto);
+        Employee employee=employeeRepository.findById(personalDetailsRequestDto.getEmployeeId()).orElseThrow(()->new NoSuchElementException("Employee id not found"));
         if (personalDetailsRepository.existsByPersonalMail(personalDetailsRequestDto.getPersonalMail())){
             throw new EntityExistsException("Personal details already exists");
         }
+        personalDetails.setEmployee(employee);
         return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 

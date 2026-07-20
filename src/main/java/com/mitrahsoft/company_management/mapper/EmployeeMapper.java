@@ -16,6 +16,7 @@ public interface EmployeeMapper {
     @Mapping(target = "techStack", ignore = true)
     Employee toEntity(EmployeeRequestDto employeeRequestDto);
     @Mapping(target = "branchId", source = "branch.branchId")
+    @Mapping(target = "stackId" ,source = "techStack.id")
     EmployeeResponseDto toDto(Employee employee);
     @Mapping(target = "techStack", ignore = true)
     void updateEntityFromDto(EmployeeRequestDto employeeRequestDto , @MappingTarget Employee employee);
