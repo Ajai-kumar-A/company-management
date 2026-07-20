@@ -15,6 +15,7 @@ public record OfficialDetailsRequestDto(
         @NotNull(message = "join date should not be null or empty")
         LocalDate joiningDate,
         @NotBlank(message = "Phone Number should not be null or empty")
-        String phoneNumber
+        String phoneNumber,
+        Long employeeId
 ) {
 }

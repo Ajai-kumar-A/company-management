@@ -2,8 +2,10 @@ package com.mitrahsoft.company_management.service;
 
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackRequestDto;
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
+import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.TechStack;
 import com.mitrahsoft.company_management.mapper.TechStackMapper;
+import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -11,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service

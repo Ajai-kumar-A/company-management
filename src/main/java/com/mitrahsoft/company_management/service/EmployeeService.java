@@ -1,19 +1,20 @@
 package com.mitrahsoft.company_management.service;
 
+
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.OfficialDetails;
+import com.mitrahsoft.company_management.entity.PersonalDetails;
 import com.mitrahsoft.company_management.entity.TechStack;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -26,14 +27,17 @@ public class EmployeeService {
 
     public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
         Employee employee = employeeMapper.toEntity(employeeRequestDto);
-        TechStack techStack = techStackRepository.findById(employeeRequestDto.techStackId())
-                .orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
-        employee.setTechStack(techStack);
-        OfficialDetails officialDetails1=employee.getOfficialDetails();
-
-        if(officialDetails1!=null){
-            employee.setOfficialDetails(officialDetails1);
-            officialDetails1.setEmployee(employee);
+        OfficialDetails officialDetails = employee.getOfficialDetails();
+        if (officialDetails != null) {
+            officialDetails.setEmployee(employee);
+        }
+        PersonalDetails personalDetails = employee.getPersonalDetails();
+        if (personalDetails != null) {
+            personalDetails.setEmployee(employee);
+        }
+        TechStack techStack = employee.getTechStack();
+        if (techStack != null) {
+            employee.setTechStack(techStack);
         }
         Employee savedEmployee = employeeRepository.save(employee);
         return employeeMapper.toDto(savedEmployee);

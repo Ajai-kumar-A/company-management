@@ -8,4 +8,5 @@ public class TechStackResponseDto {
     private String stackId;
     private String stackName;
     private String stackCategory;
+    private Long employeeId;
 }

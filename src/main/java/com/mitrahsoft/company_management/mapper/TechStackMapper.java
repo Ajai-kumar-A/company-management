@@ -4,6 +4,7 @@ import com.mitrahsoft.company_management.dto.TechStackDto.TechStackRequestDto;
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
 import com.mitrahsoft.company_management.entity.TechStack;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 

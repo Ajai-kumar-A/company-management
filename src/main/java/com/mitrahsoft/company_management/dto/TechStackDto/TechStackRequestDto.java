@@ -11,4 +11,5 @@ public class TechStackRequestDto {
     private String stackName;
     @NotBlank(message = "Stack Category is Required")
     private String stackCategory;
+    private Long employeeId;
 }

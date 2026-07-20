@@ -2,9 +2,11 @@ package com.mitrahsoft.company_management.service;
 
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsResponseDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsRequestDto;
+import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.OfficialDetails;
 import com.mitrahsoft.company_management.exception.OfficialDetailsAlreadyExistException;
 import com.mitrahsoft.company_management.mapper.OfficialDetailsMapper;
+import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.OfficeDetailsRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +20,21 @@ import java.util.Optional;
 public class OfficialDetailsService {
   private final OfficeDetailsRepository officeDetailsRepository;
   private final OfficialDetailsMapper officialDetailsMapper;
+  private final EmployeeRepository employeeRepository;
 
-    public OfficialDetailsService(OfficeDetailsRepository officeDetailsRepository, OfficialDetailsMapper officialDetailsMapper) {
+    public OfficialDetailsService(OfficeDetailsRepository officeDetailsRepository, OfficialDetailsMapper officialDetailsMapper, EmployeeRepository employeeRepository) {
         this.officeDetailsRepository = officeDetailsRepository;
         this.officialDetailsMapper = officialDetailsMapper;
+        this.employeeRepository = employeeRepository;
     }
 
  public OfficialDetailsResponseDto createOfficialDetails(OfficialDetailsRequestDto officialDetailsRequestDto) {
      if(officeDetailsRepository.existsByOfficialMail(officialDetailsRequestDto.officialMail())){
-         throw new OfficialDetailsAlreadyExistException("Employee Details already present");
+         throw new OfficialDetailsAlreadyExistException("official details already present");
      }
+     Employee employee=employeeRepository.findById(officialDetailsRequestDto.employeeId()).orElseThrow(()->new NoSuchElementException("Employee id not found"));
      OfficialDetails officialDetails =officialDetailsMapper.toEntity(officialDetailsRequestDto);
+     officialDetails.setEmployee(employee);
      return officialDetailsMapper.toDto(officeDetailsRepository.save(officialDetails));
  }
     public List<OfficialDetailsResponseDto> fetchOfficialDetails(){

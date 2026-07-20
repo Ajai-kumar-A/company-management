@@ -9,11 +9,12 @@ import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingRespo
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
 
 public record EmployeeResponseDto(
+        Long employeeId,
         String employeeName,
         String employeeDesignation,
         Double employeeSalary,
         OfficialDetailsResponseDto officialDetails,
-        TechStackResponseDto techStack,
+        Long stackId,
         List<SkillsMappingResponseDto> skillMappings,
         PersonalDetailsResponseDto personalDetails,
         List<HardwareResponseDto> hardwaresList

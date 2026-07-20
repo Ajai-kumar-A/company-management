@@ -11,4 +11,5 @@ public class PersonalDetailsResponseDto {
     private LocalDate dob;
     private String bloodGroup;
     private String nativeAddress;
+    private Long employeeId;
 }

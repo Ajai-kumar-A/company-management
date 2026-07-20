@@ -7,6 +7,7 @@ public record OfficialDetailsResponseDto(
         String officialMail,
         String experience,
         LocalDate joiningDate,
-        String phoneNumber
+        String phoneNumber,
+        Long employeeId
 ) {
 }
