@@ -8,7 +8,9 @@ public record EmpProjectReqDto(
         String role,
         @NotBlank(message = "Employee Project Status should not be null or empty")
         String status,
-        @NotNull(message = "Project Id should not be null or empty")
-        Long projectId
+        @NotNull(message = "Project Id should not be null")
+        Long projectId,
+        @NotNull(message = "Employee Id should not be null")
+        Long employeeId
 ) {
 }

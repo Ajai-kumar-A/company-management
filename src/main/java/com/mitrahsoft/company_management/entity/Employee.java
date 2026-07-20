@@ -22,6 +22,11 @@ public class Employee {
     private String employeeName;
     private String employeeDesignation;
     private Double employeeSalary;
+
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
+
     @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY)
     private List<SkillMapping> skillMappings = new ArrayList<>();
     @OneToOne(mappedBy = "employee", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -33,4 +38,6 @@ public class Employee {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stack_id")
     private TechStack techStack;
+    @OneToMany(mappedBy = "employee", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private List<EmployeeProject> employeeProjectList = new ArrayList<>();
 }

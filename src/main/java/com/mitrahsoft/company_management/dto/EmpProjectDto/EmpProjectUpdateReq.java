@@ -6,6 +6,8 @@ public record EmpProjectUpdateReq(
         String role,
         String status,
         @Null(message = "Can't change mapped project")
-        Long projectId
+        Long projectId,
+        @Null(message = "Can't change mapped employee")
+        Long employeeId
 ){
 }

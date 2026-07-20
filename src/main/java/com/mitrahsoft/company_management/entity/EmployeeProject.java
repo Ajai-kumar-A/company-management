@@ -23,4 +23,8 @@ public class EmployeeProject {
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
 }

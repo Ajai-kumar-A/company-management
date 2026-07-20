@@ -11,10 +11,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = EmployeeProjectMapper.class)
 public interface EmployeeMapper {
     @Mapping(target = "techStack", ignore = true)
     Employee toEntity(EmployeeRequestDto employeeRequestDto);
+    @Mapping(target = "branchId", source = "branch.branchId")
     EmployeeResponseDto toDto(Employee employee);
     @Mapping(target = "techStack", ignore = true)
     void updateEntityFromDto(EmployeeRequestDto employeeRequestDto , @MappingTarget Employee employee);

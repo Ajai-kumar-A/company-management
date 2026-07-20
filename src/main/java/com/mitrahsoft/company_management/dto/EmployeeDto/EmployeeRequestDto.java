@@ -13,11 +13,14 @@ public record EmployeeRequestDto(
         String employeeDesignation,
         @NotNull(message = "Employee Salary Should not be null")
         Double employeeSalary,
-        OfficialDetailsRequestDto officialDetails,
-        PersonalDetailsRequestDto personalDetails,
-        Long skillMappingId,
+        @NotNull(message = "Branch Id Should not be null")
+        Long branchId,
         Long hardwareId,
-        Long techStackId
+        Long techStackId,
+        Long skillMappingId,
+        OfficialDetailsRequestDto officialDetails,
+        PersonalDetailsRequestDto personalDetails
+
 ) {
 }
 

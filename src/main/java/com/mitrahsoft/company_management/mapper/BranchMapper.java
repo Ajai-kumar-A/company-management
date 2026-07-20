@@ -12,7 +12,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel= "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel= "spring",uses = EmployeeMapper.class, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface BranchMapper {
     Branch toEntity(BranchRequestDto branchRequestDto);
     @Mapping(target = "companyId", source = "company.companyId")

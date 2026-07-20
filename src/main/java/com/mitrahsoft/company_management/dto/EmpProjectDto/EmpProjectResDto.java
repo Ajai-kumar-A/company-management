@@ -4,6 +4,7 @@ public record EmpProjectResDto(
          Long  employeeProjectId,
          String role,
          String status,
-         Long projectId
+         Long projectId,
+         Long employeeId
 ) {
 }

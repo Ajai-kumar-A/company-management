@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "branch")
 @Getter
@@ -22,4 +24,7 @@ public class Branch {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @OneToMany(mappedBy = "branch", cascade = CascadeType.ALL)
+    private List<Employee> employeesList;
 }
