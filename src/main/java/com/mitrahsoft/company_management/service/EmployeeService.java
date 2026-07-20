@@ -53,7 +53,7 @@ public class EmployeeService {
     }
 
     public EmployeeResponseDto getEmployee(Long employeeId) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+        Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
         return employeeMapper.toDto(employee);
     }

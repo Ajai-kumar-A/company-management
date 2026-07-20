@@ -34,8 +34,6 @@ public class SkillsMappingService {
         Employee employee = employeeRepository.findById(skillsMappingRequestDto.employeeId()).orElseThrow(() -> new RuntimeException("Employee not found"));
         Skills skills = skillsRepository.findById(skillsMappingRequestDto.skillId()).orElseThrow(() -> new RuntimeException("skills id not found"));
         SkillMapping skillMapping = skillsMappingMapper.toEntity(skillsMappingRequestDto);
-        skillMapping.setEmployee(employee);
-        skillMapping.setSkills(skills);
         return skillsMappingMapper.toDto(skillsMappingRepository.save(skillMapping));
     }
 
