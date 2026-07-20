@@ -23,5 +23,4 @@ public class TechStack {
     private String stackCategory;
     @OneToMany(mappedBy = "techStack", fetch = FetchType.LAZY)
     private List<Employee> employees = new ArrayList<>();
-
 }

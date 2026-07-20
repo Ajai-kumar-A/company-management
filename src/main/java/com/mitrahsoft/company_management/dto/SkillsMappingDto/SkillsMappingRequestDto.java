@@ -4,7 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record SkillsMappingRequestDto(
+        @NotNull(message = "Employee Id should not be null")
         Long employeeId,
+        @NotNull(message = "Skill Id should not be null")
         Long skillId,
         @NotBlank(message = "proficiency level should not be null or empty")
         String proficiencyLevel,

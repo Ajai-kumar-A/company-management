@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.mapper;
 
+import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsListResDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsResponseDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsRequestDto;
 import com.mitrahsoft.company_management.entity.OfficialDetails;
@@ -15,5 +16,5 @@ public interface OfficialDetailsMapper {
     @Mapping(target = "employeeId",source = "employee.employeeId")
     OfficialDetailsResponseDto toDto(OfficialDetails officialDetails);
     void updateEntityFromDto(OfficialDetailsRequestDto dto, @MappingTarget OfficialDetails entity);
-    List<OfficialDetailsResponseDto> toDtoList(List<OfficialDetails> officialDetailsList);
+    List<OfficialDetailsListResDto> toDtoList(List<OfficialDetails> officialDetailsList);
 }

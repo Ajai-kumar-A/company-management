@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.controller;
 
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsListResDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
 import com.mitrahsoft.company_management.service.PersonalDetailsService;
@@ -24,7 +25,7 @@ public class PersonalDetailsController {
     }
 
     @GetMapping("getAll")
-    public ResponseEntity<List<PersonalDetailsResponseDto>> getAllPersonalDetails(){
+    public ResponseEntity<List<PersonalDetailsListResDto>> getAllPersonalDetails(){
         return new ResponseEntity<>(personalDetailsService.findAllPersonalDetails(), HttpStatus.OK);
     }
 
