@@ -1,6 +1,7 @@
 package com.mitrahsoft.company_management.controller;
 
 
+import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsListResDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsRequestDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsResponseDto;
 import com.mitrahsoft.company_management.service.OfficialDetailsService;
@@ -27,7 +28,7 @@ public class OfficialDetailsController {
         return new ResponseEntity<>(officialDetailsService.createOfficialDetails(officialDetailsRequestDto), HttpStatus.CREATED);
     }
     @GetMapping("/all-details")
-    public ResponseEntity<List<OfficialDetailsResponseDto>> fetchOfficialDetails(){
+    public ResponseEntity<List<OfficialDetailsListResDto>> fetchOfficialDetails(){
         return new ResponseEntity<>(officialDetailsService.fetchOfficialDetails(),HttpStatus.OK);
     }
     @PutMapping("update-offical-details/{officialId}")

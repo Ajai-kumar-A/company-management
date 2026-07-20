@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.service;
 
+import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsListResDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsRequestDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsResponseDto;
 import com.mitrahsoft.company_management.entity.Employee;
@@ -33,7 +34,7 @@ public class PersonalDetailsService {
         return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 
-    public List<PersonalDetailsResponseDto> findAllPersonalDetails() {
+    public List<PersonalDetailsListResDto> findAllPersonalDetails() {
         return personalDetailsMapper.toDtoList(personalDetailsRepository.findAll());
     }
 
