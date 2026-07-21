@@ -22,46 +22,46 @@ public class BranchService {
     private final BranchMapper branchMapper;
 
     @Autowired
-    public BranchService (BranchRepository branchRepository, BranchMapper branchMapper,CompanyRepository companyRepository){
+    public BranchService(BranchRepository branchRepository, BranchMapper branchMapper, CompanyRepository companyRepository) {
         this.branchRepository = branchRepository;
         this.companyRepository = companyRepository;
         this.branchMapper = branchMapper;
     }
 
 
-    public BranchResponseDto createBranch(BranchRequestDto branchRequestDto){
-        Company company = companyRepository.findById(branchRequestDto.companyId()).orElseThrow(()->new NoSuchElementException("Company Id not found!"));
+    public BranchResponseDto createBranch(BranchRequestDto branchRequestDto) {
+        Company company = companyRepository.findById(branchRequestDto.companyId()).orElseThrow(() -> new NoSuchElementException("Company Id not found!"));
         Branch branch = branchMapper.toEntity(branchRequestDto);
         branch.setCompany(company);
         return branchMapper.toDto(branchRepository.save(branch));
     }
 
-    public List<BranchResponseDto> fetchBranches(){
+    public List<BranchResponseDto> fetchBranches() {
         return branchMapper.toDtoList(branchRepository.findAll());
     }
 
-    public void replaceBranch(BranchReplaceReqDto branchReplaceReqDto, Long branchId){
+    public void replaceBranch(BranchReplaceReqDto branchReplaceReqDto, Long branchId) {
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
-        Company company = companyRepository.findById(branchReplaceReqDto.companyId()).orElseThrow(()->new NoSuchElementException("Company Id not found!"));
+        Company company = companyRepository.findById(branchReplaceReqDto.companyId()).orElseThrow(() -> new NoSuchElementException("Company Id not found!"));
         branchMapper.replaceEntityFromDto(branchReplaceReqDto, existingBranch);
         existingBranch.setCompany(company);
         company.getBranches().add(existingBranch);
         branchRepository.save(existingBranch);
     }
 
-    public void updateBranch(BranchUpdateReqDto branchUpdateReqDto, Long branchId){
+    public void updateBranch(BranchUpdateReqDto branchUpdateReqDto, Long branchId) {
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
-        branchMapper.updateEntityFromDto(branchUpdateReqDto,existingBranch);
-        existingBranch.getCompany().getBranches().forEach(each-> {
-                if(each.getBranchId().equals(existingBranch.getBranchId())){
-                    each.setBranchLocation(existingBranch.getBranchLocation());
-                }
+        branchMapper.updateEntityFromDto(branchUpdateReqDto, existingBranch);
+        existingBranch.getCompany().getBranches().forEach(each -> {
+            if (each.getBranchId().equals(existingBranch.getBranchId())) {
+                each.setBranchLocation(existingBranch.getBranchLocation());
+            }
         });
         branchRepository.save(existingBranch);
     }
 
 
-    public void deleteBranch(Long branchId){
+    public void deleteBranch(Long branchId) {
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         existingBranch.getCompany().getBranches().remove(existingBranch);
         branchRepository.deleteById(branchId);

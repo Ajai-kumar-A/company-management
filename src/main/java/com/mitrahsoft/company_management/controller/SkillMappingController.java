@@ -29,7 +29,7 @@ public class SkillMappingController {
     }
 
     @GetMapping("/getall-skill-mapping")
-    public ResponseEntity <List<SkillsMappingResponseDto>> findAllSkillsMapping() {
+    public ResponseEntity<List<SkillsMappingResponseDto>> findAllSkillsMapping() {
         return new ResponseEntity<>(skillsMappingService.findAllSkillsMapping(), HttpStatus.OK);
     }
 

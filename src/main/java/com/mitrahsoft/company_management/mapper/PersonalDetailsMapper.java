@@ -9,13 +9,13 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring",uses = {EmployeeMapper.class})
+@Mapper(componentModel = "spring", uses = {EmployeeMapper.class})
 public interface PersonalDetailsMapper {
-
     PersonalDetails toEntity(PersonalDetailsRequestDto personalDetailsRequestDto);
-//    @Mapping(target = "employeeId",source = "employee.employeeId")
+
     @Mapping(source = "employee", target = "employeeDetails")
     PersonalDetailsResponseDto toDto(PersonalDetails personalDetails);
+
     List<PersonalDetailsListResDto> toDtoList(List<PersonalDetails> personalDetailsList);
 
 }

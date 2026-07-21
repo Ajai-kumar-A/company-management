@@ -19,22 +19,22 @@ public class TechStackController {
     private final TechStackService techStackService;
 
     @PostMapping("/add")
-    public ResponseEntity<TechStackResponseDto> createStack(@Valid @RequestBody TechStackRequestDto techStackRequestDto){
+    public ResponseEntity<TechStackResponseDto> createStack(@Valid @RequestBody TechStackRequestDto techStackRequestDto) {
         return new ResponseEntity<>(techStackService.createTechStack(techStackRequestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<TechStackResponseDto>> getAllTechStack(){
+    public ResponseEntity<List<TechStackResponseDto>> getAllTechStack() {
         return new ResponseEntity<>(techStackService.findAllTechStack(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<TechStackResponseDto> updateStack(@PathVariable Long id, @Valid @RequestBody TechStackRequestDto techStackRequestDto){
+    public ResponseEntity<TechStackResponseDto> updateStack(@PathVariable Long id, @Valid @RequestBody TechStackRequestDto techStackRequestDto) {
         return new ResponseEntity<>(techStackService.updateTechStack(id, techStackRequestDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<String> removeStack(@PathVariable Long id){
+    public ResponseEntity<String> removeStack(@PathVariable Long id) {
         return new ResponseEntity<>(techStackService.deleteTechStack(id), HttpStatus.OK);
     }
 }

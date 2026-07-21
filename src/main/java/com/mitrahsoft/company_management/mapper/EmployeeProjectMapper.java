@@ -13,15 +13,20 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel= "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-public interface EmployeeProjectMapper{
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public interface EmployeeProjectMapper {
     EmployeeProject toEntity(EmpProjectReqDto empProjectReqDto);
+
     @Mapping(target = "projectId", source = "project.projectId")
     @Mapping(target = "employeeId", source = "employee.employeeId")
     EmpProjectResDto toDto(EmployeeProject employeeProject);
+
     @Mapping(target = "projectId", source = "project.projectId")
     EmpProjectListDto toListDto(EmployeeProject employeeProject);
+
     void replaceEntityFromDto(EmpProjectReplaceReqDto empProjectReplaceReqDto, @MappingTarget EmployeeProject employeeProject);
+
     void updateEntityFromDto(EmpProjectUpdateReq empProjectUpdateReq, @MappingTarget EmployeeProject employeeProject);
+
     List<EmpProjectResDto> toDtoList(List<EmployeeProject> employeeProjectList);
 }

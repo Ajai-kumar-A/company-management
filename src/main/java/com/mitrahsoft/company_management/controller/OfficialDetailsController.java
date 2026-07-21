@@ -28,7 +28,7 @@ public class OfficialDetailsController {
         return new ResponseEntity<>(officialDetailsService.createOfficialDetails(officialDetailsRequestDto), HttpStatus.CREATED);
     }
     @GetMapping("/all-details")
-    public ResponseEntity<List<OfficialDetailsListResDto>> fetchOfficialDetails(){
+    public ResponseEntity<List<OfficialDetailsResponseDto>> fetchOfficialDetails(){
         return new ResponseEntity<>(officialDetailsService.fetchOfficialDetails(),HttpStatus.OK);
     }
     @PutMapping("update-offical-details/{officialId}")

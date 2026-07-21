@@ -11,7 +11,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface SkillsMapper {
     Skills toEntity(SkillsRequestDto skillsRequestDto);
+
     SkillsResponseDto toDto(Skills Skills);
-    void updateEntityFromDto(SkillsRequestDto skillsRequestDto , @MappingTarget Skills skills);
+
+    void updateEntityFromDto(SkillsRequestDto skillsRequestDto, @MappingTarget Skills skills);
+
     List<SkillsResponseDto> toDtoList(List<Skills> skillsList);
 }

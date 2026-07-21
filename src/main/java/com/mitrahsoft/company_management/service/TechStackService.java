@@ -2,10 +2,8 @@ package com.mitrahsoft.company_management.service;
 
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackRequestDto;
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
-import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.entity.TechStack;
 import com.mitrahsoft.company_management.mapper.TechStackMapper;
-import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -23,11 +20,11 @@ public class TechStackService {
     private final TechStackMapper techStackMapper;
 
     public TechStackResponseDto createTechStack(TechStackRequestDto techStackRequestDto) {
-        TechStack techStack =  techStackMapper.toEntity(techStackRequestDto);
+        TechStack techStack = techStackMapper.toEntity(techStackRequestDto);
         if (techStackRepository.existsByStackId(techStackRequestDto.getStackId())) {
             throw new EntityExistsException("Stack already exists");
         }
-        return  techStackMapper.toDto(techStackRepository.save(techStack));
+        return techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
     public List<TechStackResponseDto> findAllTechStack() {
@@ -46,7 +43,7 @@ public class TechStackService {
         techStack.setStackId(techStackRequestDto.getStackId());
         techStack.setStackName(techStackRequestDto.getStackName());
         techStack.setStackCategory(techStackRequestDto.getStackCategory());
-        return  techStackMapper.toDto(techStackRepository.save(techStack));
+        return techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
     public String deleteTechStack(Long id) {
