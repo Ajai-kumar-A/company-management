@@ -10,14 +10,11 @@ import com.mitrahsoft.company_management.repository.BranchRepository;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -27,7 +24,7 @@ public class EmployeeService {
     private final BranchRepository branchRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository,TechStackRepository techStackRepository,BranchRepository branchRepository, EmployeeMapper employeeMapper) {
+    public EmployeeService(EmployeeRepository employeeRepository, TechStackRepository techStackRepository, BranchRepository branchRepository, EmployeeMapper employeeMapper) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.branchRepository = branchRepository;
@@ -35,7 +32,7 @@ public class EmployeeService {
     }
 
     public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
-        Branch branch = branchRepository.findById(employeeRequestDto.branchId()).orElseThrow(()-> new NoSuchElementException("Branch Id not found!"));
+        Branch branch = branchRepository.findById(employeeRequestDto.branchId()).orElseThrow(() -> new NoSuchElementException("Branch Id not found!"));
         TechStack techStack = techStackRepository.findById(employeeRequestDto.techStackId()).orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
         Employee employee = employeeMapper.toEntity(employeeRequestDto);
         employee.setBranch(branch);

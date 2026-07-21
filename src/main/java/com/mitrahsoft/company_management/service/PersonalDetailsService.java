@@ -26,8 +26,8 @@ public class PersonalDetailsService {
 
     public PersonalDetailsResponseDto createPersonalDetails(PersonalDetailsRequestDto personalDetailsRequestDto) {
         PersonalDetails personalDetails = personalDetailsMapper.toEntity(personalDetailsRequestDto);
-        Employee employee=employeeRepository.findById(personalDetailsRequestDto.getEmployeeId()).orElseThrow(()->new NoSuchElementException("Employee id not found"));
-        if (personalDetailsRepository.existsByPersonalMail(personalDetailsRequestDto.getPersonalMail())){
+        Employee employee = employeeRepository.findById(personalDetailsRequestDto.getEmployeeId()).orElseThrow(() -> new NoSuchElementException("Employee id not found"));
+        if (personalDetailsRepository.existsByPersonalMail(personalDetailsRequestDto.getPersonalMail())) {
             throw new EntityExistsException("Personal details already exists");
         }
         personalDetails.setEmployee(employee);

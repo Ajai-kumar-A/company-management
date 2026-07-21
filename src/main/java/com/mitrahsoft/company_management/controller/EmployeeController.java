@@ -3,6 +3,7 @@ package com.mitrahsoft.company_management.controller;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.FilterRequestDto;
 import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.service.EmployeeService;
@@ -38,8 +39,9 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeResponseDto>> findAllEmployees() {
         return new ResponseEntity<>(employeeService.findAllEmployees(), HttpStatus.OK);
     }
+
     @GetMapping("/get/{employeeId}")
-    public ResponseEntity<EmployeeResponseDto> getEmployee( @PathVariable Long employeeId) {
+    public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable Long employeeId) {
         return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 

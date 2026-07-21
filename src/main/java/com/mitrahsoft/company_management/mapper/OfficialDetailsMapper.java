@@ -9,12 +9,14 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
-
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {EmployeeMapper.class})
 public interface OfficialDetailsMapper {
     OfficialDetails toEntity(OfficialDetailsRequestDto officeDetailsRequestDto);
-    @Mapping(target = "employeeId",source = "employee.employeeId")
+
+    @Mapping(source = "employee", target = "employeeDetails")
     OfficialDetailsResponseDto toDto(OfficialDetails officialDetails);
+
     void updateEntityFromDto(OfficialDetailsRequestDto dto, @MappingTarget OfficialDetails entity);
-    List<OfficialDetailsListResDto> toDtoList(List<OfficialDetails> officialDetailsList);
+
+    List<OfficialDetailsResponseDto> toDtoList(List<OfficialDetails> officialDetailsList);
 }

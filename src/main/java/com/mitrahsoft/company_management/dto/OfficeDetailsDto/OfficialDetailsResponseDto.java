@@ -1,6 +1,8 @@
 package com.mitrahsoft.company_management.dto.OfficeDetailsDto;
 
 
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeReturnDto;
+
 import java.time.LocalDate;
 
 public record OfficialDetailsResponseDto(
@@ -9,6 +11,6 @@ public record OfficialDetailsResponseDto(
         String experience,
         LocalDate joiningDate,
         String phoneNumber,
-        Long employeeId
+        EmployeeReturnDto employeeDetails
 ) {
 }

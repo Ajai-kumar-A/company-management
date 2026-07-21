@@ -25,17 +25,17 @@ public class HardwareController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<HardwareListResDto>> getAllHardware(){
+    public ResponseEntity<List<HardwareListResDto>> getAllHardware() {
         return new ResponseEntity<>(hardwareService.findAllHardware(), HttpStatus.OK);
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<HardwareResponseDto>  updateHardware(@PathVariable Long id, @Valid @RequestBody HardwareRequestDto hardwareRequestDto){
+    public ResponseEntity<HardwareResponseDto> updateHardware(@PathVariable Long id, @Valid @RequestBody HardwareRequestDto hardwareRequestDto) {
         return new ResponseEntity<>(hardwareService.updateHardware(id, hardwareRequestDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<String> removeHardware(@PathVariable Long id){
+    public ResponseEntity<String> removeHardware(@PathVariable Long id) {
         return new ResponseEntity<>(hardwareService.deleteHardware(id), HttpStatus.OK);
     }
 

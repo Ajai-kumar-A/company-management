@@ -13,7 +13,8 @@ import java.util.List;
 public interface HardwareMapper {
 
     Hardware toEntity(HardwareRequestDto HardwareDto);
-    @Mapping(target = "employeeId",source = "employee.employeeId")
+
+    @Mapping(target = "employeeId", source = "employee.employeeId")
     HardwareResponseDto toDto(Hardware hardware);
 
     List<HardwareListResDto> toDtoList(List<Hardware> hardwareList);

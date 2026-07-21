@@ -13,11 +13,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 import java.lang.annotation.Target;
 import java.util.List;
 
-@Mapper(componentModel= "spring",uses = EmployeeProjectMapper.class,  nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", uses = EmployeeProjectMapper.class, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface ProjectMapper {
     Project toEntity(ProjectRequestDto projectRequestDto);
+
     ProjectResponseDto toDto(Project project);
+
     void replaceEntityFromDto(ProjectReplaceReqDto projectReplaceReqDto, @MappingTarget Project project);
+
     void updateEntityFromDto(ProjectUpdateReqDto projectUpdateReqDto, @MappingTarget Project project);
+
     List<ProjectResponseDto> toDtoList(List<Project> projectList);
 }

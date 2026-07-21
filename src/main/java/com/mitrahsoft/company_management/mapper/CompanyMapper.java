@@ -11,11 +11,15 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel= "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface CompanyMapper {
     Company toEntity(CompanyRequestDto companyRequestDto);
+
     CompanyResponseDto toDto(Company company);
+
     void replaceEntityFromDto(CompanyReplaceReqDto companyReplaceReqDto, @MappingTarget Company company);
+
     void updateEntityFromDto(CompanyUpdateReqDto companyUpdateReqDto, @MappingTarget Company company);
+
     List<CompanyResponseDto> toDtoList(List<Company> companyList);
 }

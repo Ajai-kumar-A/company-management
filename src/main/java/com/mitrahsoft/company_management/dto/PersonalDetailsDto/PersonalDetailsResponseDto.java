@@ -1,5 +1,7 @@
 package com.mitrahsoft.company_management.dto.PersonalDetailsDto;
 
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeReturnDto;
+import com.mitrahsoft.company_management.entity.Employee;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -11,5 +13,5 @@ public class PersonalDetailsResponseDto {
     private LocalDate dob;
     private String bloodGroup;
     private String nativeAddress;
-    private Long employeeId;
+    private EmployeeReturnDto employeeDetails;
 }

@@ -19,35 +19,35 @@ public class ProjectService {
     private final ProjectMapper projectMapper;
 
     @Autowired
-    public ProjectService (ProjectRepository projectRepository, ProjectMapper projectMapper){
+    public ProjectService(ProjectRepository projectRepository, ProjectMapper projectMapper) {
         this.projectRepository = projectRepository;
         this.projectMapper = projectMapper;
     }
 
-    public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto){
+    public ProjectResponseDto createProject(ProjectRequestDto projectRequestDto) {
         Project project = projectMapper.toEntity(projectRequestDto);
         return projectMapper.toDto(projectRepository.save(project));
     }
 
-    public List<ProjectResponseDto> fetchProjects(){
+    public List<ProjectResponseDto> fetchProjects() {
         return projectMapper.toDtoList(projectRepository.findAll());
     }
 
-    public void replaceProject(ProjectReplaceReqDto projectReplaceReqDto, Long projectId){
+    public void replaceProject(ProjectReplaceReqDto projectReplaceReqDto, Long projectId) {
         Project existingProject = projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found!"));
         projectMapper.replaceEntityFromDto(projectReplaceReqDto, existingProject);
         projectRepository.save(existingProject);
     }
 
-    public void updateProject(ProjectUpdateReqDto projectUpdateReqDto, Long projectId){
+    public void updateProject(ProjectUpdateReqDto projectUpdateReqDto, Long projectId) {
         Project existingProject = projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found!"));
-        projectMapper.updateEntityFromDto(projectUpdateReqDto,existingProject);
+        projectMapper.updateEntityFromDto(projectUpdateReqDto, existingProject);
         projectRepository.save(existingProject);
     }
 
 
-    public void deleteProject(Long projectId){
-        Project existingProject= projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found!"));
+    public void deleteProject(Long projectId) {
+        Project existingProject = projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found!"));
         projectRepository.deleteById(projectId);
     }
 }

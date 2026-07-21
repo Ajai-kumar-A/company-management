@@ -25,7 +25,7 @@ public class EmpProjectService {
     private final EmployeeRepository employeeRepository;
 
     @Autowired
-    public EmpProjectService (ProjectRepository projectRepository, EmployeeProjectMapper employeeProjectMapper,EmpProjectRepository empProjectRepository,EmployeeRepository employeeRepository){
+    public EmpProjectService(ProjectRepository projectRepository, EmployeeProjectMapper employeeProjectMapper, EmpProjectRepository empProjectRepository, EmployeeRepository employeeRepository) {
         this.projectRepository = projectRepository;
         this.empProjectRepository = empProjectRepository;
         this.employeeProjectMapper = employeeProjectMapper;
@@ -33,23 +33,23 @@ public class EmpProjectService {
     }
 
 
-    public EmpProjectResDto createEmpProject(EmpProjectReqDto empProjectReqDto){
-        Project project = projectRepository.findById(empProjectReqDto.projectId()).orElseThrow(()->new NoSuchElementException("Project Id not found!"));
-        Employee employee = employeeRepository.findById(empProjectReqDto.employeeId()).orElseThrow(()->new NoSuchElementException("Employee Id not found!"));
+    public EmpProjectResDto createEmpProject(EmpProjectReqDto empProjectReqDto) {
+        Project project = projectRepository.findById(empProjectReqDto.projectId()).orElseThrow(() -> new NoSuchElementException("Project Id not found!"));
+        Employee employee = employeeRepository.findById(empProjectReqDto.employeeId()).orElseThrow(() -> new NoSuchElementException("Employee Id not found!"));
         EmployeeProject employeeProject = employeeProjectMapper.toEntity(empProjectReqDto);
         employeeProject.setProject(project);
         employeeProject.setEmployee(employee);
         return employeeProjectMapper.toDto(empProjectRepository.save(employeeProject));
     }
 
-    public List<EmpProjectResDto> fetchEmpProject(){
+    public List<EmpProjectResDto> fetchEmpProject() {
         return employeeProjectMapper.toDtoList(empProjectRepository.findAll());
     }
 
-    public void replaceEmpProject(EmpProjectReplaceReqDto empProjectReplaceReqDto, Long employeeProjectId){
+    public void replaceEmpProject(EmpProjectReplaceReqDto empProjectReplaceReqDto, Long employeeProjectId) {
         EmployeeProject existingEmpProject = empProjectRepository.findById(employeeProjectId).orElseThrow(() -> new NoSuchElementException("Employee Project Id Not Found!"));
-        Project project = projectRepository.findById(empProjectReplaceReqDto.projectId()).orElseThrow(()->new NoSuchElementException("Project Id not found!"));
-        Employee employee = employeeRepository.findById(empProjectReplaceReqDto.employeeId()).orElseThrow(()->new NoSuchElementException("Employee Id not found!"));
+        Project project = projectRepository.findById(empProjectReplaceReqDto.projectId()).orElseThrow(() -> new NoSuchElementException("Project Id not found!"));
+        Employee employee = employeeRepository.findById(empProjectReplaceReqDto.employeeId()).orElseThrow(() -> new NoSuchElementException("Employee Id not found!"));
 
         employeeProjectMapper.replaceEntityFromDto(empProjectReplaceReqDto, existingEmpProject);
         existingEmpProject.setProject(project);
@@ -57,11 +57,11 @@ public class EmpProjectService {
         empProjectRepository.save(existingEmpProject);
     }
 
-    public void updateEmpProject(EmpProjectUpdateReq empProjectUpdateReq, Long employeeProjectId){
+    public void updateEmpProject(EmpProjectUpdateReq empProjectUpdateReq, Long employeeProjectId) {
         EmployeeProject existingEmpProject = empProjectRepository.findById(employeeProjectId).orElseThrow(() -> new NoSuchElementException("Employee Project Id Not Found!"));
-        employeeProjectMapper.updateEntityFromDto(empProjectUpdateReq,existingEmpProject);
-        existingEmpProject.getProject().getEmployeeProjectList().forEach(each-> {
-            if(each.getEmployeeProjectId().equals(existingEmpProject.getEmployeeProjectId())){
+        employeeProjectMapper.updateEntityFromDto(empProjectUpdateReq, existingEmpProject);
+        existingEmpProject.getProject().getEmployeeProjectList().forEach(each -> {
+            if (each.getEmployeeProjectId().equals(existingEmpProject.getEmployeeProjectId())) {
                 each.setRole(existingEmpProject.getRole());
                 each.setStatus(existingEmpProject.getStatus());
             }
@@ -70,7 +70,7 @@ public class EmpProjectService {
     }
 
 
-    public void deleteEmpProject(Long employeeProjectId){
+    public void deleteEmpProject(Long employeeProjectId) {
         EmployeeProject existingEmpProject = empProjectRepository.findById(employeeProjectId).orElseThrow(() -> new NoSuchElementException("Employee Project Id Not Found!"));
         existingEmpProject.getProject().getEmployeeProjectList().remove(existingEmpProject);
         empProjectRepository.deleteById(employeeProjectId);
