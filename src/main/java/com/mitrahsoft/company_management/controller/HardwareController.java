@@ -38,4 +38,5 @@ public class HardwareController {
     public ResponseEntity<String> removeHardware(@PathVariable Long id){
         return new ResponseEntity<>(hardwareService.deleteHardware(id), HttpStatus.OK);
     }
+
 }

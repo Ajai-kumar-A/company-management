@@ -3,6 +3,7 @@ package com.mitrahsoft.company_management.service;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
+import com.mitrahsoft.company_management.dto.EmployeeDto.FilterRequestDto;
 import com.mitrahsoft.company_management.entity.*;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.BranchRepository;
@@ -57,20 +58,26 @@ public class EmployeeService {
 
     public EmployeeResponseDto getEmployee(Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId)
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+                .orElseThrow(() -> new NoSuchElementException("Employee not found"));
         return employeeMapper.toDto(employee);
+    }
+
+    public List<EmployeeResponseDto> searchEmployee(FilterRequestDto request) {
+        return employeeMapper.toDtoList(employeeRepository.findAll(EmployeeSpecification.getSpecification(request)));
     }
 
     public EmployeeResponseDto updateEmployee(EmployeeUpdateReqDto employeeUpdateReqDto, Long employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new NoSuchElementException("Employee Id Not Found"));
         employeeMapper.updateEntityFromDto(employeeUpdateReqDto, employee);
-
-        TechStack techStack = techStackRepository.findById(employeeUpdateReqDto.techStackId()).orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
-        Branch branch = branchRepository.findById(employee.getBranch().getBranchId()).orElseThrow(()->new NoSuchElementException("Branch Id not found!"));
-        employee.setBranch(branch);
-        employee.setTechStack(techStack);
-        Employee updatedEmployee = employeeRepository.save(employee);
-        return employeeMapper.toDto(updatedEmployee);
+        if(employeeUpdateReqDto.techStackId() != null){
+            TechStack techStack = techStackRepository.findById(employeeUpdateReqDto.techStackId()).orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
+            employee.setTechStack(techStack);
+        }
+        if(employeeUpdateReqDto.branchId() != null){
+            Branch branch = branchRepository.findById(employeeUpdateReqDto.branchId()).orElseThrow(()->new NoSuchElementException("Branch Id not found!"));
+            employee.setBranch(branch);
+        }
+        return employeeMapper.toDto(employeeRepository.save(employee));
     }
 
     public void deleteEmployee(Long employeeId) {

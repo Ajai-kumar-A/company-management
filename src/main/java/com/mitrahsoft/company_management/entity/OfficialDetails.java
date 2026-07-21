@@ -23,7 +23,7 @@ public class OfficialDetails {
     private String experience;
     private LocalDate joiningDate;
     private String phoneNumber;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     @JsonIgnore
     private Employee employee;

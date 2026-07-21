@@ -31,7 +31,6 @@ public class HardwareService {
             throw new EntityExistsException("Hardware already exists");
         }
         hardware.setEmployee(employee);
-        employee.getHardwaresList().add(hardware);
         return hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
     public List<HardwareListResDto> findAllHardware() {

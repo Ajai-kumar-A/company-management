@@ -31,7 +31,7 @@ public class OfficialDetailsController {
     public ResponseEntity<List<OfficialDetailsListResDto>> fetchOfficialDetails(){
         return new ResponseEntity<>(officialDetailsService.fetchOfficialDetails(),HttpStatus.OK);
     }
-    @PutMapping("update-offical-details/{officialId}")
+    @PutMapping("/update-offical-details/{officialId}")
     public ResponseEntity<OfficialDetailsResponseDto> updateOfficialDetails(@Valid @RequestBody OfficialDetailsRequestDto officialDetailsRequestDto, @PathVariable Long officialId){
         return new ResponseEntity<>(officialDetailsService.updateOfficialDetails(officialDetailsRequestDto, officialId),HttpStatus.OK);
     }

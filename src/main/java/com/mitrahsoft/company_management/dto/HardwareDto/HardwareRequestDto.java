@@ -1,10 +1,12 @@
 package com.mitrahsoft.company_management.dto.HardwareDto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
 public class HardwareRequestDto {
+    @NotNull(message = "Employee ID Required")
     private Long employeeId;
     @NotBlank(message = "Serial ID Required")
     private String serialId;

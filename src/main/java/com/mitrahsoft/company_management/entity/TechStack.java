@@ -21,6 +21,6 @@ public class TechStack {
     @Column(unique = true)
     private String stackName;
     private String stackCategory;
-    @OneToMany(mappedBy = "techStack", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "techStack", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private List<Employee> employees = new ArrayList<>();
 }

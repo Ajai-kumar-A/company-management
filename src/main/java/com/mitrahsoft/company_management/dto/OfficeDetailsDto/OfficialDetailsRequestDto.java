@@ -12,10 +12,11 @@ public record OfficialDetailsRequestDto(
         String officialMail,
         @NotBlank(message = "Experience domain should not be null or empty")
         String experience,
-        @NotNull(message = "join date should not be null or empty")
+        @NotNull(message = "Joining date should not be null ")
         LocalDate joiningDate,
         @NotBlank(message = "Phone Number should not be null or empty")
         String phoneNumber,
+        @NotNull(message = "Employee Id should not be null")
         Long employeeId
 ) {
 }

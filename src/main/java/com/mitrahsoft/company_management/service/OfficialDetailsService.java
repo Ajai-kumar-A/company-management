@@ -42,13 +42,13 @@ public class OfficialDetailsService {
         return officialDetailsMapper.toDtoList(officeDetailsRepository.findAll());
     }
     public OfficialDetailsResponseDto updateOfficialDetails(OfficialDetailsRequestDto officialDetailsRequestDto, Long officialId){
-        OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
+        OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Official details Not Found!"));
         officialDetailsMapper.updateEntityFromDto(officialDetailsRequestDto,officialDetails);
         OfficialDetails updated=officeDetailsRepository.save(officialDetails);
         return officialDetailsMapper.toDto(updated);
     }
     public void deleteOfficialDetails(Long officialId){
-        OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));;
+        OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Official details Not Found!"));;
         officeDetailsRepository.deleteById(officialId);
     }
 }

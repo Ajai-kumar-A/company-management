@@ -2,6 +2,9 @@ package com.mitrahsoft.company_management.controller;
 
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
+import com.mitrahsoft.company_management.dto.EmployeeDto.FilterRequestDto;
+import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,11 @@ public class EmployeeController {
     @PostMapping("/create-employee")
     public ResponseEntity<EmployeeResponseDto> createEmployee(@Valid @RequestBody EmployeeRequestDto employeeRequestDto) {
         return new ResponseEntity<>(employeeService.createEmployee(employeeRequestDto), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/search")
+    public List<EmployeeResponseDto> search(@RequestBody FilterRequestDto request) {
+        return employeeService.searchEmployee(request);
     }
 
     @GetMapping("/getall-employee")

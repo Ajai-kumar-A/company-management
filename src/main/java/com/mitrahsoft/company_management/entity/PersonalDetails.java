@@ -22,7 +22,7 @@ public class PersonalDetails {
     private String bloodGroup;
     private String nativeAddress;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "employee_id")
     @JsonIgnore
     private Employee employee;
