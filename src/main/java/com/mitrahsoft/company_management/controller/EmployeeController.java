@@ -2,6 +2,7 @@ package com.mitrahsoft.company_management.controller;
 
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
 import com.mitrahsoft.company_management.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

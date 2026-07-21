@@ -1,10 +1,7 @@
 package com.mitrahsoft.company_management.dto.ProjectDto;
 
-
-public record ProjectResponseDto(
+public record ProjectSummaryDto(
         Long projectId,
         String projectName,
         String clientName
-//        List<EmpProjectListDto> employeeProjectList
-) {
-}
+) {}

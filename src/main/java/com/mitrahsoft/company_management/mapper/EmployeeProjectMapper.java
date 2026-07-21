@@ -7,19 +7,17 @@ import com.mitrahsoft.company_management.dto.EmpProjectDto.EmpProjectUpdateReq;
 import com.mitrahsoft.company_management.dto.ProjectDto.EmpProjectListDto;
 import com.mitrahsoft.company_management.entity.EmployeeProject;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 import java.util.List;
 
-@Mapper(componentModel= "spring", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+@Mapper(componentModel= "spring", uses = ProjectMapper.class, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface EmployeeProjectMapper{
     EmployeeProject toEntity(EmpProjectReqDto empProjectReqDto);
-    @Mapping(target = "projectId", source = "project.projectId")
-    @Mapping(target = "employeeId", source = "employee.employeeId")
+//    @Mapping(target = "projectId", source = "project.projectId")
+//    @Mapping(target = "employeeId", source = "employee.employeeId")
     EmpProjectResDto toDto(EmployeeProject employeeProject);
-    @Mapping(target = "projectId", source = "project.projectId")
     EmpProjectListDto toListDto(EmployeeProject employeeProject);
     void replaceEntityFromDto(EmpProjectReplaceReqDto empProjectReplaceReqDto, @MappingTarget EmployeeProject employeeProject);
     void updateEntityFromDto(EmpProjectUpdateReq empProjectUpdateReq, @MappingTarget EmployeeProject employeeProject);

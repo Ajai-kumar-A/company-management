@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.service;
 
+import com.mitrahsoft.company_management.dto.SkillsDto.SkillRevResDto;
 import com.mitrahsoft.company_management.dto.SkillsDto.SkillsRequestDto;
 import com.mitrahsoft.company_management.dto.SkillsDto.SkillsResponseDto;
 import com.mitrahsoft.company_management.entity.Skills;
@@ -27,6 +28,11 @@ public class SkillsService {
 
     public List<SkillsResponseDto> findAllSkills() {
         return skillsMapper.toDtoList(skillsRepository.findAll());
+    }
+
+    public SkillRevResDto getSkill(Long skillId) {
+        Skills skill = skillsRepository.findById(skillId).orElseThrow(() -> new NoSuchElementException("Skill Id Not Found"));
+        return skillsMapper.toDetailsDto(skill);
     }
 
     public SkillsResponseDto updateSkills(SkillsRequestDto skillsRequestDto, Long skillId) {

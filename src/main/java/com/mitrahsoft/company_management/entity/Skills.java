@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -18,4 +21,6 @@ public class Skills {
     @Column(unique = true)
     private String skillName;
     private String skillCategory;
+    @OneToMany(mappedBy = "skills", fetch = FetchType.LAZY)
+    private List<SkillMapping> skillMappings = new ArrayList<>();
 }

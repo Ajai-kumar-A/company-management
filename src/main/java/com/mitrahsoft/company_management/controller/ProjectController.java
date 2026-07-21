@@ -1,9 +1,7 @@
 package com.mitrahsoft.company_management.controller;
 
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectReplaceReqDto;
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectRequestDto;
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectResponseDto;
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectUpdateReqDto;
+import com.mitrahsoft.company_management.dto.ProjectDto.*;
+import com.mitrahsoft.company_management.entity.Project;
 import com.mitrahsoft.company_management.repository.ProjectRepository;
 import com.mitrahsoft.company_management.service.ProjectService;
 import jakarta.validation.Valid;
@@ -12,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/project")
@@ -30,6 +29,11 @@ public class ProjectController {
     @GetMapping("/projects")
     public ResponseEntity<List<ProjectResponseDto>> fetchProjects(){
         return new ResponseEntity<>(projectService.fetchProjects(),HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{projectId}")
+    public ResponseEntity<ProjectDetailsDto> getProject(@PathVariable Long projectId) {
+        return new ResponseEntity<>(projectService.getProject(projectId), HttpStatus.OK);
     }
 
     @PutMapping("/replace-project/{projectId}")

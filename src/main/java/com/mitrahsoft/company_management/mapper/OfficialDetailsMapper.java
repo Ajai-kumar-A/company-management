@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OfficialDetailsMapper {
     OfficialDetails toEntity(OfficialDetailsRequestDto officeDetailsRequestDto);
-    @Mapping(target = "employeeId",source = "employee.employeeId")
+    @Mapping(target = "employee")
     OfficialDetailsResponseDto toDto(OfficialDetails officialDetails);
     void updateEntityFromDto(OfficialDetailsRequestDto dto, @MappingTarget OfficialDetails entity);
     List<OfficialDetailsListResDto> toDtoList(List<OfficialDetails> officialDetailsList);

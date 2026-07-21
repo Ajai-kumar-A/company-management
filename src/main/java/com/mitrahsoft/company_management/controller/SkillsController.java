@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.controller;
 
+import com.mitrahsoft.company_management.dto.SkillsDto.SkillRevResDto;
 import com.mitrahsoft.company_management.dto.SkillsDto.SkillsRequestDto;
 import com.mitrahsoft.company_management.dto.SkillsDto.SkillsResponseDto;
 import com.mitrahsoft.company_management.service.SkillsService;
@@ -29,6 +30,11 @@ public class SkillsController {
     @GetMapping("/getall-skills")
     public ResponseEntity<List<SkillsResponseDto>> findAllSkills() {
         return new ResponseEntity<>(skillsService.findAllSkills(), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseEntity<SkillRevResDto> getSkill(@PathVariable Long id) {
+        return new ResponseEntity<>(skillsService.getSkill(id), HttpStatus.OK);
     }
 
     @PutMapping("update-skills/{skillId}")

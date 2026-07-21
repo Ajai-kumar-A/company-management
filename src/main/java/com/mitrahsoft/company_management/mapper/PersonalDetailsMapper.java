@@ -13,7 +13,7 @@ import java.util.List;
 public interface PersonalDetailsMapper {
 
     PersonalDetails toEntity(PersonalDetailsRequestDto personalDetailsRequestDto);
-    @Mapping(target = "employeeId",source = "employee.employeeId")
+    @Mapping(target = "employee")
     PersonalDetailsResponseDto toDto(PersonalDetails personalDetails);
     List<PersonalDetailsListResDto> toDtoList(List<PersonalDetails> personalDetailsList);
 

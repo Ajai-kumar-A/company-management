@@ -1,9 +1,6 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectReplaceReqDto;
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectRequestDto;
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectResponseDto;
-import com.mitrahsoft.company_management.dto.ProjectDto.ProjectUpdateReqDto;
+import com.mitrahsoft.company_management.dto.ProjectDto.*;
 import com.mitrahsoft.company_management.entity.Project;
 import com.mitrahsoft.company_management.mapper.ProjectMapper;
 import com.mitrahsoft.company_management.repository.ProjectRepository;
@@ -31,6 +28,11 @@ public class ProjectService {
 
     public List<ProjectResponseDto> fetchProjects(){
         return projectMapper.toDtoList(projectRepository.findAll());
+    }
+
+    public ProjectDetailsDto getProject(Long projectId) {
+        Project project = projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found"));
+        return projectMapper.toDetailsDto(project);
     }
 
     public void replaceProject(ProjectReplaceReqDto projectReplaceReqDto, Long projectId){

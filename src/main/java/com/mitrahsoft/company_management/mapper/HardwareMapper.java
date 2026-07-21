@@ -9,13 +9,15 @@ import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(
+        componentModel = "spring",
+        uses = EmployeeMapper.class
+)
 public interface HardwareMapper {
 
-    Hardware toEntity(HardwareRequestDto HardwareDto);
-    @Mapping(target = "employeeId",source = "employee.employeeId")
+    Hardware toEntity(HardwareRequestDto hardwareDto);
+
     HardwareResponseDto toDto(Hardware hardware);
 
     List<HardwareListResDto> toDtoList(List<Hardware> hardwareList);
-
 }
