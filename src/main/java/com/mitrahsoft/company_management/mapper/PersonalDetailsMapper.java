@@ -12,8 +12,7 @@ import java.util.List;
 @Mapper(componentModel = "spring", uses = {EmployeeMapper.class})
 public interface PersonalDetailsMapper {
     PersonalDetails toEntity(PersonalDetailsRequestDto personalDetailsRequestDto);
-
-    @Mapping(source = "employee", target = "employeeDetails")
+    @Mapping(target = "employee")
     PersonalDetailsResponseDto toDto(PersonalDetails personalDetails);
 
     List<PersonalDetailsListResDto> toDtoList(List<PersonalDetails> personalDetailsList);

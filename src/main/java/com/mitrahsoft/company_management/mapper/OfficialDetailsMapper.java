@@ -1,6 +1,5 @@
 package com.mitrahsoft.company_management.mapper;
 
-import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsListResDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsResponseDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsRequestDto;
 import com.mitrahsoft.company_management.entity.OfficialDetails;
@@ -12,8 +11,7 @@ import java.util.List;
 @Mapper(componentModel = "spring",uses = {EmployeeMapper.class})
 public interface OfficialDetailsMapper {
     OfficialDetails toEntity(OfficialDetailsRequestDto officeDetailsRequestDto);
-
-    @Mapping(source = "employee", target = "employeeDetails")
+    @Mapping(target = "employee")
     OfficialDetailsResponseDto toDto(OfficialDetails officialDetails);
 
     void updateEntityFromDto(OfficialDetailsRequestDto dto, @MappingTarget OfficialDetails entity);

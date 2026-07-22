@@ -23,19 +23,19 @@ public class OfficialDetailsController {
         this.officialDetailsService = officialDetailsService;
     }
 
-    @PostMapping("/create-official-details")
+    @PostMapping("/add")
     public ResponseEntity<OfficialDetailsResponseDto> createOfficialDetails(@Valid @RequestBody OfficialDetailsRequestDto officialDetailsRequestDto){
         return new ResponseEntity<>(officialDetailsService.createOfficialDetails(officialDetailsRequestDto), HttpStatus.CREATED);
     }
-    @GetMapping("/all-details")
-    public ResponseEntity<List<OfficialDetailsResponseDto>> fetchOfficialDetails(){
+    @GetMapping("/getAll")
+    public ResponseEntity<List<OfficialDetailsListResDto>> fetchOfficialDetails(){
         return new ResponseEntity<>(officialDetailsService.fetchOfficialDetails(),HttpStatus.OK);
     }
-    @PutMapping("/update-offical-details/{officialId}")
+    @PutMapping("update/{officialId}")
     public ResponseEntity<OfficialDetailsResponseDto> updateOfficialDetails(@Valid @RequestBody OfficialDetailsRequestDto officialDetailsRequestDto, @PathVariable Long officialId){
         return new ResponseEntity<>(officialDetailsService.updateOfficialDetails(officialDetailsRequestDto, officialId),HttpStatus.OK);
     }
-    @DeleteMapping("/delete-official-details/{officialId}")
+    @DeleteMapping("/delete/{officialId}")
     public ResponseEntity<String> deleteOfficialDetails(@PathVariable Long officialId){
         officialDetailsService.deleteOfficialDetails(officialId);
         return new ResponseEntity<>("official detail deleted successfully",HttpStatus.OK);

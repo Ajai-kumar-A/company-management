@@ -3,9 +3,7 @@ package com.mitrahsoft.company_management.controller;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
-import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.FilterRequestDto;
-import com.mitrahsoft.company_management.entity.Employee;
 import com.mitrahsoft.company_management.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/create-employee")
+    @PostMapping("/add")
     public ResponseEntity<EmployeeResponseDto> createEmployee(@Valid @RequestBody EmployeeRequestDto employeeRequestDto) {
         return new ResponseEntity<>(employeeService.createEmployee(employeeRequestDto), HttpStatus.CREATED);
     }
@@ -35,7 +33,7 @@ public class EmployeeController {
         return employeeService.searchEmployee(request);
     }
 
-    @GetMapping("/getall-employee")
+    @GetMapping("/getAll")
     public ResponseEntity<List<EmployeeResponseDto>> findAllEmployees() {
         return new ResponseEntity<>(employeeService.findAllEmployees(), HttpStatus.OK);
     }
@@ -45,12 +43,12 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 
-    @PutMapping("update-employee/{employeeId}")
+    @PutMapping("update/{employeeId}")
     public ResponseEntity<EmployeeResponseDto> updateEmployee(@Valid @RequestBody EmployeeUpdateReqDto employeeUpdateReqDto, @PathVariable Long employeeId) {
         return new ResponseEntity<>(employeeService.updateEmployee(employeeUpdateReqDto, employeeId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-employee/{employeeId}")
+    @DeleteMapping("/delete/{employeeId}")
     public ResponseEntity<String> deleteEmployee(@PathVariable Long employeeId) {
         employeeService.deleteEmployee(employeeId);
         return new ResponseEntity<>("Employee Deleted successfully", HttpStatus.OK);

@@ -3,6 +3,7 @@ package com.mitrahsoft.company_management.mapper;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRevResDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Employee;
 
@@ -15,10 +16,11 @@ public interface EmployeeMapper {
     Employee toEntity(EmployeeRequestDto employeeRequestDto);
 
     @Mapping(target = "branchId", source = "branch.branchId")
-    @Mapping(target = "stackId", source = "techStack.id")
+    @Mapping(target = "stackId" ,source = "techStack.id")
     EmployeeResponseDto toDto(Employee employee);
-
-    void updateEntityFromDto(EmployeeUpdateReqDto employeeUpdateReqDto, @MappingTarget Employee employee);
-
+    @Mapping(target = "branchId", source = "branch.branchId")
+    @Mapping(target = "stackId", source = "techStack.id")
+    EmployeeRevResDto toRevResDto(Employee employee);
+    void updateEntityFromDto(EmployeeUpdateReqDto employeeUpdateReqDto , @MappingTarget Employee employee);
     List<EmployeeResponseDto> toDtoList(List<Employee> employeeList);
 }

@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.dto.HardwareDto;
 
+import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRevResDto;
 import lombok.Data;
 
 @Data
@@ -9,5 +10,5 @@ public class HardwareResponseDto {
     private String deviceName;
     private String brand;
     private String model;
-    private Long employeeId;
+    private EmployeeRevResDto employee;
 }

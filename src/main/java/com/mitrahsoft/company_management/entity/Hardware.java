@@ -24,6 +24,7 @@ public class Hardware {
     private String model;
     @ManyToOne
     @JoinColumn(name = "employee_id")
+    @JsonIgnore
     private Employee employee;
 }
 
