@@ -19,7 +19,7 @@ public interface EmployeeProjectMapper{
 //    @Mapping(target = "projectId", source = "project.projectId")
 //    @Mapping(target = "employeeId", source = "employee.employeeId")
     EmpProjectResDto toDto(EmployeeProject employeeProject);
-    @Mapping(target = "projectId", source = "project.projectId")
+    @Mapping(target = "project")
     EmpProjectListDto toListDto(EmployeeProject employeeProject);
 
     void replaceEntityFromDto(EmpProjectReplaceReqDto empProjectReplaceReqDto, @MappingTarget EmployeeProject employeeProject);
