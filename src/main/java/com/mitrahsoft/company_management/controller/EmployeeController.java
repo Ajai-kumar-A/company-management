@@ -3,10 +3,11 @@ package com.mitrahsoft.company_management.controller;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
-import com.mitrahsoft.company_management.dto.EmployeeDto.FilterRequestDto;
+import com.mitrahsoft.company_management.dto.EmployeeSearchDto.EmployeeSearchRequest;
 import com.mitrahsoft.company_management.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,9 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.createEmployee(employeeRequestDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/search")
-    public List<EmployeeResponseDto> search(@RequestBody FilterRequestDto request) {
-        return employeeService.searchEmployee(request);
+    @PostMapping("/get")
+    public List<EmployeeResponseDto> getEmployees(@RequestBody EmployeeSearchRequest request) {
+        return employeeService.getEmployees(request);
     }
 
     @GetMapping("/getAll")
@@ -39,7 +40,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/get/{employeeId}")
-    public ResponseEntity<EmployeeResponseDto> getEmployee(@PathVariable Long employeeId) {
+    public ResponseEntity<EmployeeResponseDto> getEmployee( @PathVariable Long employeeId) {
         return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 

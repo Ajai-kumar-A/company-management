@@ -8,6 +8,7 @@ import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
 import com.mitrahsoft.company_management.entity.Employee;
 
 import org.mapstruct.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -22,5 +23,6 @@ public interface EmployeeMapper {
     @Mapping(target = "stackId", source = "techStack.id")
     EmployeeRevResDto toRevResDto(Employee employee);
     void updateEntityFromDto(EmployeeUpdateReqDto employeeUpdateReqDto , @MappingTarget Employee employee);
-    List<EmployeeResponseDto> toDtoList(List<Employee> employeeList);
+    List<EmployeeResponseDto> toDtoList(List<Employee> employeeList);;
 }
+

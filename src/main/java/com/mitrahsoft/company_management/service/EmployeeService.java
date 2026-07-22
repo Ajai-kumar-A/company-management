@@ -1,9 +1,8 @@
 package com.mitrahsoft.company_management.service;
 
-import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRequestDto;
-import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
-import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
-import com.mitrahsoft.company_management.dto.EmployeeDto.FilterRequestDto;
+import com.mitrahsoft.company_management.dto.EmployeeDto.*;
+import com.mitrahsoft.company_management.dto.EmployeeSearchDto.EmployeeSearchRequest;
+import com.mitrahsoft.company_management.dto.EmployeeSearchDto.SortCriteria;
 import com.mitrahsoft.company_management.entity.*;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.BranchRepository;
@@ -11,6 +10,11 @@ import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,8 +63,36 @@ public class EmployeeService {
         return employeeMapper.toDto(employee);
     }
 
-    public List<EmployeeResponseDto> searchEmployee(FilterRequestDto request) {
-        return employeeMapper.toDtoList(employeeRepository.findAll(EmployeeSpecification.getSpecification(request)));
+    public List<EmployeeResponseDto> getEmployees(EmployeeSearchRequest request) {
+        Sort sort = Sort.unsorted();
+        if (request.getSorting() != null && !request.getSorting().isEmpty()) {
+            List<Sort.Order> orders = new ArrayList<>();
+            for (SortCriteria sortCriteria : request.getSorting()) {
+                String direction = sortCriteria.getDirection();
+                String column = sortCriteria.getColumnName();
+
+                Sort.Order order = "DESC".equalsIgnoreCase(direction)
+                        ? Sort.Order.desc(column)
+                        : Sort.Order.by(column); // Defaults to ASC
+                orders.add(order);
+            }
+            sort = Sort.by(orders);
+        }
+
+        // 2. Set Default Pagination fallback safely
+        int page = 0;
+        int size = 10;
+        if (request.getPagination() != null) {
+            page = request.getPagination().getPage();
+            size = request.getPagination().getSize();
+        }
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        // 3. Apply Filters and execute search
+        Specification<Employee> spec = EmployeeSpecification.getSearchSpecification(request);
+        Page<Employee> employeePage = employeeRepository.findAll(spec, pageable);
+        return employeePage.map(employeeMapper::toDto).getContent();
     }
 
     public EmployeeResponseDto updateEmployee(EmployeeUpdateReqDto employeeUpdateReqDto, Long employeeId) {
