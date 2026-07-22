@@ -23,29 +23,29 @@ public class BranchController {
         this.branchService = branchService;
     }
 
-    @PostMapping("/create-branch")
+    @PostMapping("/add")
     public ResponseEntity<BranchResponseDto> createBranch(@Valid @RequestBody BranchRequestDto branchRequestDto){
         return new ResponseEntity<>(branchService.createBranch(branchRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/branches")
+    @GetMapping("/getAll")
     public ResponseEntity<List<BranchResponseDto>> fetchBranches(){
         return new ResponseEntity<>(branchService.fetchBranches(),HttpStatus.OK);
     }
 
-    @PutMapping("/replace-branch/{branchId}")
+    @PutMapping("/replace/{branchId}")
     public ResponseEntity<String> replaceBranch(@Valid @RequestBody BranchReplaceReqDto branchReplaceReqDto, @PathVariable Long branchId){
         branchService.replaceBranch(branchReplaceReqDto, branchId);
         return new ResponseEntity<>("Branch details replaced successfully",HttpStatus.OK);
     }
 
-    @PatchMapping("/update-branch/{branchId}")
+    @PatchMapping("/update/{branchId}")
     public ResponseEntity<String> updateBranch(@Valid @RequestBody BranchUpdateReqDto branchUpdateReqDto, @PathVariable Long branchId){
         branchService.updateBranch(branchUpdateReqDto, branchId);
         return new ResponseEntity<>("Branch details updated successfully",HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-branch/{branchId}")
+    @DeleteMapping("/delete/{branchId}")
     public ResponseEntity<String> deleteBranch(@PathVariable Long branchId){
         branchService.deleteBranch(branchId);
         return new ResponseEntity<>("Branch deleted successfully",HttpStatus.OK);

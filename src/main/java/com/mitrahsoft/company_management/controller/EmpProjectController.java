@@ -23,29 +23,29 @@ public class EmpProjectController {
         this.empProjectService = empProjectService;
     }
 
-    @PostMapping("/create-employee-project")
+    @PostMapping("/add")
     public ResponseEntity<EmpProjectResDto> createEmpProject(@Valid @RequestBody EmpProjectReqDto empProjectReqDto){
         return new ResponseEntity<>(empProjectService.createEmpProject(empProjectReqDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/employee-projects")
+    @GetMapping("/getAll")
     public ResponseEntity<List<EmpProjectResDto>> fetchEmpProject(){
         return new ResponseEntity<>(empProjectService.fetchEmpProject(),HttpStatus.OK);
     }
 
-    @PutMapping("/replace-employee-project/{employeeProjectId}")
+    @PutMapping("/replace/{employeeProjectId}")
     public ResponseEntity<String> replaceEmpProject(@Valid @RequestBody EmpProjectReplaceReqDto empProjectReplaceReqDto, @PathVariable Long employeeProjectId){
         empProjectService.replaceEmpProject(empProjectReplaceReqDto, employeeProjectId);
         return new ResponseEntity<>("Employee Project details replaced successfully",HttpStatus.OK);
     }
 
-    @PatchMapping("/update-employee-project/{employeeProjectId}")
+    @PatchMapping("/update/{employeeProjectId}")
     public ResponseEntity<String> updateEmpProject(@Valid @RequestBody EmpProjectUpdateReq empProjectUpdateReq, @PathVariable Long employeeProjectId){
         empProjectService.updateEmpProject(empProjectUpdateReq, employeeProjectId);
         return new ResponseEntity<>("Employee Project details updated successfully",HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-employee-project/{employeeProjectId}")
+    @DeleteMapping("/delete/{employeeProjectId}")
     public ResponseEntity<String> deleteEmpProject(@PathVariable Long employeeProjectId){
         empProjectService.deleteEmpProject(employeeProjectId);
         return new ResponseEntity<>("Employee Project deleted successfully",HttpStatus.OK);

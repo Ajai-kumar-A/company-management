@@ -22,12 +22,12 @@ public class SkillsController {
         this.skillsService = skillsService;
     }
 
-    @PostMapping("/create-skills")
+    @PostMapping("/")
     public ResponseEntity<SkillsResponseDto> createSkills(@Valid @RequestBody SkillsRequestDto skillsRequestDto) {
         return new ResponseEntity<>(skillsService.createSkills(skillsRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getall-skills")
+    @GetMapping("/getAll")
     public ResponseEntity<List<SkillsResponseDto>> findAllSkills() {
         return new ResponseEntity<>(skillsService.findAllSkills(), HttpStatus.OK);
     }
@@ -37,12 +37,12 @@ public class SkillsController {
         return new ResponseEntity<>(skillsService.getSkill(id), HttpStatus.OK);
     }
 
-    @PutMapping("update-skills/{skillId}")
+    @PutMapping("update/{skillId}")
     public ResponseEntity<SkillsResponseDto> updateSkills(@Valid @RequestBody SkillsRequestDto skillsRequestDto, @PathVariable Long skillId) {
         return new ResponseEntity<>(skillsService.updateSkills(skillsRequestDto, skillId), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-skills/{skillId}")
+    @DeleteMapping("/delete/{skillId}")
     public ResponseEntity<String> deleteSkills(@PathVariable Long skillId) {
         skillsService.deleteSkills(skillId);
         return new ResponseEntity<>("skill deleted successfully", HttpStatus.OK);
