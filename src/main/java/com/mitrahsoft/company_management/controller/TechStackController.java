@@ -24,7 +24,7 @@ public class TechStackController {
         return new ResponseEntity<>(techStackService.createTechStack(techStackRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<TechStackResponseDto>> getAllTechStack() {
         return new ResponseEntity<>(techStackService.findAllTechStack(), HttpStatus.OK);
     }

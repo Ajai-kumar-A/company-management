@@ -22,12 +22,12 @@ public class SkillsController {
         this.skillsService = skillsService;
     }
 
-    @PostMapping("/")
+    @PostMapping("/add")
     public ResponseEntity<SkillsResponseDto> createSkills(@Valid @RequestBody SkillsRequestDto skillsRequestDto) {
         return new ResponseEntity<>(skillsService.createSkills(skillsRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<SkillsResponseDto>> findAllSkills() {
         return new ResponseEntity<>(skillsService.findAllSkills(), HttpStatus.OK);
     }

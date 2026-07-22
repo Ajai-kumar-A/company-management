@@ -24,7 +24,7 @@ public class HardwareController {
         return new ResponseEntity<>(hardwareService.createHardware(hardwareRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<HardwareListResDto>> getAllHardware() {
         return new ResponseEntity<>(hardwareService.findAllHardware(), HttpStatus.OK);
     }

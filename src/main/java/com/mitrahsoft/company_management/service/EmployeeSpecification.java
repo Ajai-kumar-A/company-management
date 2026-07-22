@@ -21,12 +21,7 @@ public class EmployeeSpecification {
             FilterWrapper filterWrapper = request.getFilters();
 
             for (SearchCondition condition : filterWrapper.getConditions()) {
-                // Map incoming json fields like "empName" safely to entity fields like "name"
                 String column = condition.getColumnName();
-//                if ("empName".equals(column)) {
-//                    column = "name";
-//                }
-
                 String operator = condition.getOperator();
                 String value = condition.getValue();
 

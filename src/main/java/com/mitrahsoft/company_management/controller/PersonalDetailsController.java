@@ -24,7 +24,7 @@ public class PersonalDetailsController {
         return new ResponseEntity<>(personalDetailsService.createPersonalDetails(personalDetailsRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<PersonalDetailsListResDto>> getAllPersonalDetails(){
         return new ResponseEntity<>(personalDetailsService.findAllPersonalDetails(), HttpStatus.OK);
     }

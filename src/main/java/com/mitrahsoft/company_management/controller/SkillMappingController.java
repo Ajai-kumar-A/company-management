@@ -28,7 +28,7 @@ public class SkillMappingController {
         return new ResponseEntity<>(skillsMappingService.createSkillsMapping(skillsMappingRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity <List<SkillsMappingResponseDto>> findAllSkillsMapping() {
         return new ResponseEntity<>(skillsMappingService.findAllSkillsMapping(), HttpStatus.OK);
     }

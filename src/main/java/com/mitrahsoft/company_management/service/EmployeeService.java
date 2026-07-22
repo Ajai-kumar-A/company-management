@@ -4,11 +4,13 @@ import com.mitrahsoft.company_management.dto.EmployeeDto.*;
 import com.mitrahsoft.company_management.dto.EmployeeSearchDto.EmployeeSearchRequest;
 import com.mitrahsoft.company_management.dto.EmployeeSearchDto.SortCriteria;
 import com.mitrahsoft.company_management.entity.*;
+import com.mitrahsoft.company_management.exception.RecordsNotFoundException;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
 import com.mitrahsoft.company_management.repository.BranchRepository;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -35,7 +38,7 @@ public class EmployeeService {
         this.techStackRepository = techStackRepository;
     }
 
-    public EmployeeResponseDto createEmployee(EmployeeRequestDto employeeRequestDto) {
+    public EmployeeResponseDto createEmployee(@NonNull EmployeeRequestDto employeeRequestDto) {
         Branch branch = branchRepository.findById(employeeRequestDto.branchId()).orElseThrow(() -> new NoSuchElementException("Branch Id not found!"));
         TechStack techStack = techStackRepository.findById(employeeRequestDto.techStackId()).orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
         Employee employee = employeeMapper.toEntity(employeeRequestDto);
@@ -73,13 +76,12 @@ public class EmployeeService {
 
                 Sort.Order order = "DESC".equalsIgnoreCase(direction)
                         ? Sort.Order.desc(column)
-                        : Sort.Order.by(column); // Defaults to ASC
+                        : Sort.Order.by(column);
                 orders.add(order);
             }
             sort = Sort.by(orders);
         }
 
-        // 2. Set Default Pagination fallback safely
         int page = 0;
         int size = 10;
         if (request.getPagination() != null) {
@@ -89,10 +91,12 @@ public class EmployeeService {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        // 3. Apply Filters and execute search
         Specification<Employee> spec = EmployeeSpecification.getSearchSpecification(request);
         Page<Employee> employeePage = employeeRepository.findAll(spec, pageable);
-        return employeePage.map(employeeMapper::toDto).getContent();
+        List<EmployeeResponseDto> employeeList =  employeePage.map(employeeMapper::toDto).getContent();
+        if(employeeList.isEmpty())
+            throw new RecordsNotFoundException("No employee record found!");
+        return employeeList;
     }
 
     public EmployeeResponseDto updateEmployee(EmployeeUpdateReqDto employeeUpdateReqDto, Long employeeId) {
