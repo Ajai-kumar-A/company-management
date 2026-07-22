@@ -1,15 +1,11 @@
 package com.mitrahsoft.company_management.dto.PersonalDetailsDto;
 
-import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRevResDto;
-
 import java.time.LocalDate;
 
-public record PersonalDetailsListResDto (
+public record PersonalDetailsSummaryDto (
         Long personalId,
         String personalMail,
         LocalDate dob,
         String bloodGroup,
-        String nativeAddress,
-        EmployeeRevResDto employee
-){
-}
+        String nativeAddress
+) {}

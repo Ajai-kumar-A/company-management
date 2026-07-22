@@ -1,5 +1,6 @@
 package com.mitrahsoft.company_management.service;
 
+import com.mitrahsoft.company_management.dto.TechStackDto.TechStackDetailsDto;
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackRequestDto;
 import com.mitrahsoft.company_management.dto.TechStackDto.TechStackResponseDto;
 import com.mitrahsoft.company_management.entity.TechStack;
@@ -29,6 +30,11 @@ public class TechStackService {
 
     public List<TechStackResponseDto> findAllTechStack() {
         return techStackMapper.toDtoList(techStackRepository.findAll());
+    }
+
+    public TechStackDetailsDto getTechStack(Long id) {
+        TechStack techStack = techStackRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tech Stack Not Found!"));
+        return techStackMapper.toDetailsDto(techStack);
     }
 
     public TechStackResponseDto updateTechStack(Long id, TechStackRequestDto techStackRequestDto) {
