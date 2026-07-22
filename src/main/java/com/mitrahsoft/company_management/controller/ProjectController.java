@@ -27,7 +27,7 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.createProject(projectRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<ProjectResponseDto>> fetchProjects(){
         return new ResponseEntity<>(projectService.fetchProjects(),HttpStatus.OK);
     }
@@ -37,7 +37,7 @@ public class ProjectController {
         return new ResponseEntity<>(projectService.getProject(projectId), HttpStatus.OK);
     }
 
-    @PutMapping("/modify/{projectId}")
+    @PutMapping("/replace/{projectId}")
     public ResponseEntity<String> replaceProject(@Valid @RequestBody ProjectReplaceReqDto projectReplaceReqDto, @PathVariable Long projectId){
         projectService.replaceProject(projectReplaceReqDto, projectId);
         return new ResponseEntity<>("Project replaced successfully",HttpStatus.OK);

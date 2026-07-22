@@ -29,12 +29,12 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.createEmployee(employeeRequestDto), HttpStatus.CREATED);
     }
 
-    @PostMapping("/get")
+    @PostMapping("/search")
     public List<EmployeeResponseDto> getEmployees(@RequestBody EmployeeSearchRequest request) {
         return employeeService.getEmployees(request);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<EmployeeResponseDto>> findAllEmployees() {
         return new ResponseEntity<>(employeeService.findAllEmployees(), HttpStatus.OK);
     }

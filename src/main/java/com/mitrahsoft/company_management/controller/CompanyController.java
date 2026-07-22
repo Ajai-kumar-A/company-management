@@ -28,7 +28,7 @@ public class CompanyController {
         return new ResponseEntity<>(companyService.createCompany(companyRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<CompanyResponseDto>> fetchCompanies(){
         return new ResponseEntity<>(companyService.fetchCompanies(),HttpStatus.OK);
     }

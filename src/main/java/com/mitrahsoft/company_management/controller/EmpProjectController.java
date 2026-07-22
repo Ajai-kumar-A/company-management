@@ -28,7 +28,7 @@ public class EmpProjectController {
         return new ResponseEntity<>(empProjectService.createEmpProject(empProjectReqDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<EmpProjectResDto>> fetchEmpProject(){
         return new ResponseEntity<>(empProjectService.fetchEmpProject(),HttpStatus.OK);
     }

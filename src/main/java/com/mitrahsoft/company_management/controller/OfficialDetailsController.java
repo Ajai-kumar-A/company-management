@@ -27,7 +27,7 @@ public class OfficialDetailsController {
     public ResponseEntity<OfficialDetailsResponseDto> createOfficialDetails(@Valid @RequestBody OfficialDetailsRequestDto officialDetailsRequestDto){
         return new ResponseEntity<>(officialDetailsService.createOfficialDetails(officialDetailsRequestDto), HttpStatus.CREATED);
     }
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<OfficialDetailsListResDto>> fetchOfficialDetails(){
         return new ResponseEntity<>(officialDetailsService.fetchOfficialDetails(),HttpStatus.OK);
     }

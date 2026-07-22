@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PaginationCriteria {
-    private int page = 0;
-    private int size = 10;
+    private int page;
+    private int size;
 }

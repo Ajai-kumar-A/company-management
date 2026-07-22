@@ -28,7 +28,7 @@ public class BranchController {
         return new ResponseEntity<>(branchService.createBranch(branchRequestDto), HttpStatus.CREATED);
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get-all")
     public ResponseEntity<List<BranchResponseDto>> fetchBranches(){
         return new ResponseEntity<>(branchService.fetchBranches(),HttpStatus.OK);
     }
