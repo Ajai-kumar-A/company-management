@@ -8,6 +8,8 @@ import com.mitrahsoft.company_management.entity.Company;
 import com.mitrahsoft.company_management.mapper.CompanyMapper;
 import com.mitrahsoft.company_management.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,11 +28,13 @@ public class CompanyService {
     }
 
 
+    @CacheEvict(value = "companyList")
     public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
         Company company = companyMapper.toEntity(companyRequestDto);
         return companyMapper.toDto(companyRepository.save(company));
     }
 
+    @Cacheable("companyList")
     public List<CompanyResponseDto> fetchCompanies() {
         return companyMapper.toDtoList(companyRepository.findAll());
     }

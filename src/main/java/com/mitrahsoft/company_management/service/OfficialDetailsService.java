@@ -9,6 +9,9 @@ import com.mitrahsoft.company_management.exception.OfficialDetailsAlreadyExistEx
 import com.mitrahsoft.company_management.mapper.OfficialDetailsMapper;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.OfficeDetailsRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 
@@ -29,24 +32,34 @@ public class OfficialDetailsService {
         this.employeeRepository = employeeRepository;
     }
 
- public OfficialDetailsResponseDto createOfficialDetails(OfficialDetailsRequestDto officialDetailsRequestDto) {
-     if(officeDetailsRepository.existsByOfficialMail(officialDetailsRequestDto.officialMail())){
-         throw new OfficialDetailsAlreadyExistException("official details already present");
+    @CacheEvict(value = "officialDetails", allEntries = true)
+     public OfficialDetailsResponseDto createOfficialDetails(OfficialDetailsRequestDto officialDetailsRequestDto) {
+         if(officeDetailsRepository.existsByOfficialMail(officialDetailsRequestDto.officialMail())){
+             throw new OfficialDetailsAlreadyExistException("official details already present");
+         }
+         Employee employee=employeeRepository.findById(officialDetailsRequestDto.employeeId()).orElseThrow(()->new NoSuchElementException("Employee id not found"));
+         OfficialDetails officialDetails =officialDetailsMapper.toEntity(officialDetailsRequestDto);
+         officialDetails.setEmployee(employee);
+         return officialDetailsMapper.toDto(officeDetailsRepository.save(officialDetails));
      }
-     Employee employee=employeeRepository.findById(officialDetailsRequestDto.employeeId()).orElseThrow(()->new NoSuchElementException("Employee id not found"));
-     OfficialDetails officialDetails =officialDetailsMapper.toEntity(officialDetailsRequestDto);
-     officialDetails.setEmployee(employee);
-     return officialDetailsMapper.toDto(officeDetailsRepository.save(officialDetails));
- }
+
+     @Cacheable("officialDetails")
     public List<OfficialDetailsListResDto> fetchOfficialDetails(){
         return officialDetailsMapper.toDtoList(officeDetailsRepository.findAll());
     }
+
+    @Caching(evict = {
+            @CacheEvict(value = "employees", key = "#OfficialDetailsRequestDto.employeeId"),
+            @CacheEvict(value = "employeeList", allEntries = true)
+    })
     public OfficialDetailsResponseDto updateOfficialDetails(OfficialDetailsRequestDto officialDetailsRequestDto, Long officialId){
         OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Official details Not Found!"));
         officialDetailsMapper.updateEntityFromDto(officialDetailsRequestDto,officialDetails);
         OfficialDetails updated=officeDetailsRepository.save(officialDetails);
         return officialDetailsMapper.toDto(updated);
     }
+
+    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true)})
     public void deleteOfficialDetails(Long officialId){
         OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Official details Not Found!"));;
         officeDetailsRepository.deleteById(officialId);

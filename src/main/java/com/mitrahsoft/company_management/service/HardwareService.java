@@ -10,6 +10,9 @@ import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.HardwareRepository;
 import jakarta.persistence.EntityExistsException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,7 @@ public class HardwareService {
     private  final HardwareMapper hardwareMapper;
     private final EmployeeRepository employeeRepository;
 
+    @CacheEvict(value = "hardwareList", allEntries = true)
     public HardwareResponseDto createHardware(HardwareRequestDto hardwareRequestDto) {
         Employee employee = employeeRepository.findById(hardwareRequestDto.getEmployeeId()).orElseThrow(() -> new RuntimeException("Employee not found"));
         Hardware hardware = hardwareMapper.toEntity(hardwareRequestDto);
@@ -33,10 +37,16 @@ public class HardwareService {
         hardware.setEmployee(employee);
         return hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
+
+    @Cacheable("hardwareList")
     public List<HardwareListResDto> findAllHardware() {
         return hardwareMapper.toDtoList(hardwareRepository.findAll());
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "employees", key = "#HardwareRequestDto.employeeId"),
+            @CacheEvict(value = "employeeList", allEntries = true)
+    })
     public HardwareResponseDto updateHardware(Long id, HardwareRequestDto hardwareRequestDto) {
         Optional<Hardware> hardwareOptional = hardwareRepository.findById(id);
         if (hardwareOptional.isEmpty()) {
@@ -50,6 +60,7 @@ public class HardwareService {
         return  hardwareMapper.toDto(hardwareRepository.save(hardware));
     }
 
+    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true)})
     public String  deleteHardware(Long id) {
         Optional<Hardware> hardwareOptional = hardwareRepository.findById(id);
         if (hardwareOptional.isEmpty()) {

@@ -12,6 +12,8 @@ import com.mitrahsoft.company_management.repository.EmpProjectRepository;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class EmpProjectService {
         this.employeeRepository = employeeRepository;
     }
 
-
+@CacheEvict(value = "employeeProjectList", allEntries = true)
     public EmpProjectResDto createEmpProject(EmpProjectReqDto empProjectReqDto) {
         Project project = projectRepository.findById(empProjectReqDto.projectId()).orElseThrow(() -> new NoSuchElementException("Project Id not found!"));
         Employee employee = employeeRepository.findById(empProjectReqDto.employeeId()).orElseThrow(() -> new NoSuchElementException("Employee Id not found!"));
@@ -42,6 +44,7 @@ public class EmpProjectService {
         return employeeProjectMapper.toDto(empProjectRepository.save(employeeProject));
     }
 
+    @Cacheable("employeeProjectList")
     public List<EmpProjectResDto> fetchEmpProject() {
         return employeeProjectMapper.toDtoList(empProjectRepository.findAll());
     }

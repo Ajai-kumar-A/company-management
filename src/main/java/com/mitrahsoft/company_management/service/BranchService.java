@@ -10,6 +10,10 @@ import com.mitrahsoft.company_management.mapper.BranchMapper;
 import com.mitrahsoft.company_management.repository.BranchRepository;
 import com.mitrahsoft.company_management.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +32,7 @@ public class BranchService {
         this.branchMapper = branchMapper;
     }
 
-
+    @Caching(evict = @CacheEvict(value = "branchList", allEntries = true))
     public BranchResponseDto createBranch(BranchRequestDto branchRequestDto) {
         Company company = companyRepository.findById(branchRequestDto.companyId()).orElseThrow(() -> new NoSuchElementException("Company Id not found!"));
         Branch branch = branchMapper.toEntity(branchRequestDto);
@@ -36,6 +40,7 @@ public class BranchService {
         return branchMapper.toDto(branchRepository.save(branch));
     }
 
+    @Cacheable("branchList")
     public List<BranchResponseDto> fetchBranches() {
         return branchMapper.toDtoList(branchRepository.findAll());
     }

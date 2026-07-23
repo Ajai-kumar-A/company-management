@@ -9,6 +9,10 @@ import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,6 +24,7 @@ public class TechStackService {
     private final TechStackRepository techStackRepository;
     private final TechStackMapper techStackMapper;
 
+    @CacheEvict(value = "stackList", allEntries = true)
     public TechStackResponseDto createTechStack(TechStackRequestDto techStackRequestDto) {
         TechStack techStack = techStackMapper.toEntity(techStackRequestDto);
         if (techStackRepository.existsByStackId(techStackRequestDto.getStackId())) {
@@ -28,15 +33,19 @@ public class TechStackService {
         return techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
+    @Cacheable("stackList")
     public List<TechStackResponseDto> findAllTechStack() {
         return techStackMapper.toDtoList(techStackRepository.findAll());
     }
 
+    @Cacheable(value = "stacks", key = "#id")
     public TechStackDetailsDto getTechStack(Long id) {
         TechStack techStack = techStackRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Tech Stack Not Found!"));
         return techStackMapper.toDetailsDto(techStack);
     }
 
+    @Caching(put = @CachePut(value = "stacks", key = "#id"),
+            evict = @CacheEvict(value = "stackList", allEntries = true))
     public TechStackResponseDto updateTechStack(Long id, TechStackRequestDto techStackRequestDto) {
         Optional<TechStack> techStackOptional = techStackRepository.findById(id);
         if (techStackOptional.isEmpty()) {
@@ -52,6 +61,8 @@ public class TechStackService {
         return techStackMapper.toDto(techStackRepository.save(techStack));
     }
 
+    @Caching(evict = {@CacheEvict(value = "stacks", key = "#id"),
+            @CacheEvict(value = "stackList", allEntries = true)})
     public String deleteTechStack(Long id) {
         Optional<TechStack> techStackOptional = techStackRepository.findById(id);
         if (techStackOptional.isEmpty()) {

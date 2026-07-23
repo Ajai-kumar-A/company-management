@@ -11,6 +11,8 @@ import com.mitrahsoft.company_management.mapper.SkillsMappingMapper;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.SkillsMappingRepository;
 import com.mitrahsoft.company_management.repository.SkillsRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class SkillsMappingService {
         this.skillsRepository = skillsRepository;
     }
 
+    @CacheEvict(value = "skillMappingList", allEntries = true)
     public SkillsMappingResponseDto createSkillsMapping(SkillsMappingRequestDto skillsMappingRequestDto) {
         Employee employee = employeeRepository.findById(skillsMappingRequestDto.employeeId()).orElseThrow(() -> new NoSuchElementException("Employee not found"));
         Skills skills = skillsRepository.findById(skillsMappingRequestDto.skillId()).orElseThrow(() -> new NoSuchElementException("skills id not found"));
@@ -39,6 +42,7 @@ public class SkillsMappingService {
         return skillsMappingMapper.toDto(skillsMappingRepository.save(skillMapping));
     }
 
+    @Cacheable("skillMappingList")
     public List<SkillsMappingResponseDto> findAllSkillsMapping() {
         return skillsMappingMapper.toDtoList(skillsMappingRepository.findAll());
     }

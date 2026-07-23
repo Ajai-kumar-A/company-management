@@ -11,6 +11,9 @@ import com.mitrahsoft.company_management.repository.PersonalDetailsRepository;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +27,7 @@ public class PersonalDetailsService {
     private final PersonalDetailsMapper personalDetailsMapper;
     private final EmployeeRepository employeeRepository;
 
+    @CacheEvict(value = "personalDetails", allEntries = true)
     public PersonalDetailsResponseDto createPersonalDetails(PersonalDetailsRequestDto personalDetailsRequestDto) {
         PersonalDetails personalDetails = personalDetailsMapper.toEntity(personalDetailsRequestDto);
         Employee employee = employeeRepository.findById(personalDetailsRequestDto.getEmployeeId()).orElseThrow(() -> new NoSuchElementException("Employee id not found"));
@@ -34,10 +38,15 @@ public class PersonalDetailsService {
         return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 
+    @Cacheable("personalDetails")
     public List<PersonalDetailsListResDto> findAllPersonalDetails() {
         return personalDetailsMapper.toDtoList(personalDetailsRepository.findAll());
     }
 
+    @Caching(evict = {
+            @CacheEvict(value = "employees", key = "#personalDetailsRequestDto.employeeId"),
+            @CacheEvict(value = "employeeList", allEntries = true)
+    })
     public PersonalDetailsResponseDto updatePersonalDetails(Long personalId, PersonalDetailsRequestDto personalDetailsRequestDto) {
         Optional<PersonalDetails> optionalPersonalDetails = personalDetailsRepository.findById(personalId);
         if (optionalPersonalDetails.isEmpty()) {
@@ -51,6 +60,7 @@ public class PersonalDetailsService {
         return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 
+    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true)})
     public void deletePersonalDetails(Long personalId) {
         Optional<PersonalDetails> optionalPersonalDetails = personalDetailsRepository.findById(personalId);
         if (optionalPersonalDetails.isEmpty()) {
