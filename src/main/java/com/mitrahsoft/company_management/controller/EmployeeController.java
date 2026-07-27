@@ -44,6 +44,16 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getEmployee(employeeId), HttpStatus.OK);
     }
 
+    @GetMapping("/get/rest/{id}")
+    public ResponseEntity<EmployeeResponseDto> getEmployeeByRestClient(@PathVariable Long id) {
+        return new ResponseEntity<>(employeeService.getEmployeeByRestClient(id), HttpStatus.OK);
+    }
+
+    @GetMapping("/get/feign/{id}")
+    public ResponseEntity<EmployeeResponseDto> getEmployeeByFeignClient(@PathVariable Long id) {
+        return new ResponseEntity<>(employeeService.getEmployeeByFeignClient(id), HttpStatus.OK);
+    }
+
     @PutMapping("update/{employeeId}")
     public ResponseEntity<EmployeeResponseDto> updateEmployee(@Valid @RequestBody EmployeeUpdateReqDto employeeUpdateReqDto, @PathVariable Long employeeId) {
         return new ResponseEntity<>(employeeService.updateEmployee(employeeUpdateReqDto, employeeId), HttpStatus.OK);

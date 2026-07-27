@@ -3,6 +3,7 @@ package com.mitrahsoft.company_management.service;
 import com.mitrahsoft.company_management.dto.EmployeeDto.*;
 import com.mitrahsoft.company_management.dto.EmployeeSearchDto.EmployeeSearchRequest;
 import com.mitrahsoft.company_management.dto.EmployeeSearchDto.SortCriteria;
+import com.mitrahsoft.company_management.dto.SalaryDto.SalaryDto;
 import com.mitrahsoft.company_management.entity.*;
 import com.mitrahsoft.company_management.exception.RecordsNotFoundException;
 import com.mitrahsoft.company_management.mapper.EmployeeMapper;
@@ -10,7 +11,7 @@ import com.mitrahsoft.company_management.repository.BranchRepository;
 import com.mitrahsoft.company_management.repository.EmployeeRepository;
 import com.mitrahsoft.company_management.repository.TechStackRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.jspecify.annotations.NonNull;
+//import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
@@ -33,17 +34,21 @@ public class EmployeeService {
     private final EmployeeMapper employeeMapper;
     private final TechStackRepository techStackRepository;
     private final BranchRepository branchRepository;
+    private final SalaryRestClientService salaryRestClientService;
+    private final SalaryFeignClientService salaryFeignClientService;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, TechStackRepository techStackRepository, BranchRepository branchRepository, EmployeeMapper employeeMapper) {
+    public EmployeeService(EmployeeRepository employeeRepository, TechStackRepository techStackRepository, BranchRepository branchRepository, EmployeeMapper employeeMapper, SalaryRestClientService salaryRestClientService, SalaryFeignClientService salaryFeignClientService) {
         this.employeeRepository = employeeRepository;
         this.employeeMapper = employeeMapper;
         this.branchRepository = branchRepository;
         this.techStackRepository = techStackRepository;
+        this.salaryRestClientService = salaryRestClientService;
+        this.salaryFeignClientService = salaryFeignClientService;
     }
 
     @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true), @CacheEvict(value = "employeeSearchList", allEntries = true)})
-    public EmployeeResponseDto createEmployee(@NonNull EmployeeRequestDto employeeRequestDto) {
+    public EmployeeResponseDto createEmployee( EmployeeRequestDto employeeRequestDto) {
         Branch branch = branchRepository.findById(employeeRequestDto.branchId()).orElseThrow(() -> new NoSuchElementException("Branch Id not found!"));
         TechStack techStack = techStackRepository.findById(employeeRequestDto.techStackId()).orElseThrow(() -> new EntityNotFoundException("Tech Stack not found"));
         Employee employee = employeeMapper.toEntity(employeeRequestDto);
@@ -71,6 +76,24 @@ public class EmployeeService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found"));
         return employeeMapper.toDto(employee);
+    }
+
+    public EmployeeResponseDto getEmployeeByRestClient(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new NoSuchElementException("Employee not found"));
+        EmployeeResponseDto employeeResponseDto = employeeMapper.toDto(employee);
+        SalaryDto salaryDto = salaryRestClientService.getSalary(employeeId);
+        employeeResponseDto.setSalary(salaryDto);
+        return  employeeResponseDto;
+    }
+
+    public EmployeeResponseDto getEmployeeByFeignClient(Long employeeId) {
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new NoSuchElementException("Employee not found"));
+        EmployeeResponseDto response = employeeMapper.toDto(employee);
+        SalaryDto salary = salaryFeignClientService.getSalary(employeeId);
+        response.setSalary(salary);
+        return response;
     }
 
     @Cacheable("employeeSearchList")
