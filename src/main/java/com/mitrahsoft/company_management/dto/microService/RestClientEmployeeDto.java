@@ -1,17 +1,14 @@
-package com.mitrahsoft.company_management.dto.EmployeeDto;
-import java.util.List;
+package com.mitrahsoft.company_management.dto.microService;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.mitrahsoft.company_management.dto.HardwareDto.HardwareSummaryDto;
 import com.mitrahsoft.company_management.dto.OfficeDetailsDto.OfficialDetailsSummaryDto;
 import com.mitrahsoft.company_management.dto.PersonalDetailsDto.PersonalDetailsSummaryDto;
 import com.mitrahsoft.company_management.dto.ProjectDto.EmpProjectListDto;
-import com.mitrahsoft.company_management.dto.SalaryDto.SalaryDto;
 import com.mitrahsoft.company_management.dto.SkillsMappingDto.SkillsMappingResponseDto;
-import com.mitrahsoft.company_management.dto.microService.SalaryDetailsDto;
 import lombok.Data;
 
-@Data
+import java.util.List;
 @JsonPropertyOrder({
         "employeeId",
         "employeeName",
@@ -24,8 +21,10 @@ import lombok.Data;
         "skillMappings",
         "employeeProjectList",
         "hardwaresList",
+        "salaryDetails"
 })
-public class EmployeeResponseDto {
+@Data
+public class RestClientEmployeeDto {
     private Long employeeId;
     private String employeeName;
     private String employeeDesignation;
@@ -37,4 +36,5 @@ public class EmployeeResponseDto {
     private List<SkillsMappingResponseDto> skillMappings;
     private List<EmpProjectListDto> employeeProjectList;
     private List<HardwareSummaryDto> hardwaresList;
+    private SalaryDetailsDto salaryDetails;
 }

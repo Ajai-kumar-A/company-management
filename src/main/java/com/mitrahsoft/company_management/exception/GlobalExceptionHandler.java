@@ -10,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.net.ConnectException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -63,5 +64,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = RecordsNotFoundException.class)
     public ResponseEntity<String> handleRecordsNotFoundException(RecordsNotFoundException ex){
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.OK);
+    }
+    @ExceptionHandler(value = SalaryDetailsNotFound.class)
+    public ResponseEntity<String> handleSalaryDetailsNotFound(SalaryDetailsNotFound ex){
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(ConnectException.class)
+    public ResponseEntity<String> handleConnectException(ConnectException ex) {
+        return new ResponseEntity<>("Salary service currently unavailable", HttpStatus.SERVICE_UNAVAILABLE);
     }
 }

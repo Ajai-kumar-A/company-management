@@ -36,7 +36,7 @@ public class SkillsService {
         return skillsMapper.toDtoList(skillsRepository.findAll());
     }
 
-    @Cacheable(value = "skills", key = "@skillId")
+    @Cacheable(value = "skills", key = "#skillId")
     public SkillRevResDto getSkill(Long skillId) {
         Skills skill = skillsRepository.findById(skillId).orElseThrow(() -> new NoSuchElementException("Skill Id Not Found"));
         return skillsMapper.toDetailsDto(skill);
