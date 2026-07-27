@@ -133,7 +133,14 @@ public class EmployeeService {
             }
     )
     public void deleteEmployee(Long employeeId) {
-        employeeRepository.findById(employeeId).orElseThrow(() -> new NoSuchElementException("Employee Id Not Found"));
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new NoSuchElementException("Employee Id Not Found"));
+//        String salaryDetails = restClient.delete()
+//                .uri("/delete/{employeeId}",employee.getEmployeeId())
+//                .retrieve()
+//                .onStatus(status -> status.is4xxClientError(), (request, response) -> {
+//                    throw new NoSuchElementException("Employee Id not found in salaryDetails");
+//                })
+//                .body(String.class);
         employeeRepository.deleteById(employeeId);
     }
 }

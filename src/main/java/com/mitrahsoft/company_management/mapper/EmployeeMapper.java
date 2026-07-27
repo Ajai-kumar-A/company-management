@@ -5,6 +5,7 @@ import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeResponseDto;
 
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeRevResDto;
 import com.mitrahsoft.company_management.dto.EmployeeDto.EmployeeUpdateReqDto;
+import com.mitrahsoft.company_management.dto.RestClientSalaryDto.RestClientEmployeeResDto;
 import com.mitrahsoft.company_management.entity.Employee;
 
 import org.mapstruct.*;
@@ -19,6 +20,9 @@ public interface EmployeeMapper {
     @Mapping(target = "branchId", source = "branch.branchId")
     @Mapping(target = "stackId" ,source = "techStack.id")
     EmployeeResponseDto toDto(Employee employee);
+    @Mapping(target = "branchId", source = "branch.branchId")
+    @Mapping(target = "stackId" ,source = "techStack.id")
+    RestClientEmployeeResDto toRestClientEmployeeResDto(Employee employee);
     @Mapping(target = "branchId", source = "branch.branchId")
     @Mapping(target = "stackId", source = "techStack.id")
     EmployeeRevResDto toRevResDto(Employee employee);
