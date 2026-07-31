@@ -28,7 +28,7 @@ public class CompanyService {
     }
 
 
-    @CacheEvict(value = "companyList")
+    @CacheEvict(value = "companyList", allEntries = true)
     public CompanyResponseDto createCompany(CompanyRequestDto companyRequestDto) {
         Company company = companyMapper.toEntity(companyRequestDto);
         return companyMapper.toDto(companyRepository.save(company));
@@ -39,12 +39,14 @@ public class CompanyService {
         return companyMapper.toDtoList(companyRepository.findAll());
     }
 
+    @CacheEvict(value = "companyList", allEntries = true)
     public void replaceCompany(CompanyReplaceReqDto companyReplaceReqDto, Long companyId) {
         Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyMapper.replaceEntityFromDto(companyReplaceReqDto, existingCompany);
         companyRepository.save(existingCompany);
     }
 
+    @CacheEvict(value = "companyList", allEntries = true)
     public void updateCompany(CompanyUpdateReqDto companyUpdateReqDto, Long companyId) {
         Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyMapper.updateEntityFromDto(companyUpdateReqDto, existingCompany);
@@ -52,6 +54,7 @@ public class CompanyService {
     }
 
 
+    @CacheEvict(value = "companyList", allEntries = true)
     public void deleteCompany(Long companyId) {
         Company existingCompany = companyRepository.findById(companyId).orElseThrow(() -> new NoSuchElementException("Company Id Not Found!"));
         companyRepository.deleteById(companyId);

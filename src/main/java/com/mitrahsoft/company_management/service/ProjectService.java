@@ -43,7 +43,10 @@ public class ProjectService {
     }
 
     @Caching(put = @CachePut(value = "project", key = "#projectId"),
-            evict = @CacheEvict(value = "projectList", allEntries = true))
+            evict = {@CacheEvict(value = "projectList", allEntries = true),
+                    @CacheEvict(value = "employees", key = "#projectReplaceReqDto.employeeId"),
+                    @CacheEvict(value = "employeeList", allEntries = true),
+                    @CacheEvict(value = "employeeSearchList", allEntries = true)})
     public void replaceProject(ProjectReplaceReqDto projectReplaceReqDto, Long projectId){
         Project existingProject = projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found!"));
         projectMapper.replaceEntityFromDto(projectReplaceReqDto, existingProject);
@@ -51,7 +54,10 @@ public class ProjectService {
     }
 
     @Caching(put = @CachePut(value = "project", key = "#projectId"),
-            evict = @CacheEvict(value = "projectList", allEntries = true))
+            evict = {@CacheEvict(value = "projectList", allEntries = true),
+                    @CacheEvict(value = "employees", key = "#projectUpdateReqDto.employeeId"),
+                    @CacheEvict(value = "employeeList", allEntries = true),
+                    @CacheEvict(value = "employeeSearchList", allEntries = true)})
     public void updateProject(ProjectUpdateReqDto projectUpdateReqDto, Long projectId){
         Project existingProject = projectRepository.findById(projectId).orElseThrow(() -> new NoSuchElementException("Project Id Not Found!"));
         projectMapper.updateEntityFromDto(projectUpdateReqDto,existingProject);

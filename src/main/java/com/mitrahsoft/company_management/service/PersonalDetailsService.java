@@ -60,12 +60,14 @@ public class PersonalDetailsService {
         return personalDetailsMapper.toDto(personalDetailsRepository.save(personalDetails));
     }
 
-    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true)})
-    public void deletePersonalDetails(Long personalId) {
+    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true),
+            @CacheEvict(value = "employees", key = "#result")})
+    public Long deletePersonalDetails(Long personalId) {
         Optional<PersonalDetails> optionalPersonalDetails = personalDetailsRepository.findById(personalId);
         if (optionalPersonalDetails.isEmpty()) {
             throw new EntityNotFoundException("No person found with id: " + personalId);
         }
         personalDetailsRepository.deleteById(personalId);
+        return optionalPersonalDetails.get().getEmployee().getEmployeeId();
     }
 }

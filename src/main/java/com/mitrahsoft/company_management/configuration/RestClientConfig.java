@@ -10,7 +10,7 @@ public class RestClientConfig {
     @Bean
     public RestClient restClient() {
         return RestClient.builder()
-                .baseUrl("http://localhost:8081/salary")
+                .baseUrl("http://salary-microservice:8081/salary")
                 .defaultHeader("Accept", "application/json")
                 .build();
     }

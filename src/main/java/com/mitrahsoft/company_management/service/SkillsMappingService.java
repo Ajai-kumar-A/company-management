@@ -47,6 +47,7 @@ public class SkillsMappingService {
         return skillsMappingMapper.toDtoList(skillsMappingRepository.findAll());
     }
 
+    @CacheEvict(value = "skillMappingList", allEntries = true)
     public SkillsMappingResponseDto updateSkillsMapping(SkillsMappingUpdateDto skillsMappingUpdateDto, Long skillMappingId) {
         SkillMapping skillMapping = skillsMappingRepository.findById(skillMappingId).orElseThrow(() -> new NoSuchElementException("Skill Mapping Id Not Found"));
         skillsMappingMapper.updateEntityFromDto(skillsMappingUpdateDto, skillMapping);
@@ -54,6 +55,7 @@ public class SkillsMappingService {
         return skillsMappingMapper.toDto(updatedSkill);
     }
 
+    @CacheEvict(value = "skillMappingList", allEntries = true)
     public void deleteSkillsMapping(Long skillMappingId) {
         SkillMapping skillMapping = skillsMappingRepository.findById(skillMappingId).orElseThrow(() -> new NoSuchElementException("Skill Mapping Id Not Found"));
         skillsMappingRepository.deleteById(skillMappingId);

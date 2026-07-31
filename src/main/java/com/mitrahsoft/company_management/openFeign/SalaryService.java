@@ -5,8 +5,8 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "salaryService", url = "http://localhost:8081", path = "/salary")
+@FeignClient(name = "salaryService", url = "http://salary-microservice:8081", path = "/salary")
 public interface SalaryService {
-    @GetMapping("/employee/{employeeId}")
+    @GetMapping("/get/{employeeId}")
     SalaryDetailsDto getEmployeeSalary(@PathVariable Long employeeId);
 }

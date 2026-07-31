@@ -59,9 +59,11 @@ public class OfficialDetailsService {
         return officialDetailsMapper.toDto(updated);
     }
 
-    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true)})
-    public void deleteOfficialDetails(Long officialId){
+    @Caching(evict = {@CacheEvict(value = "employeeList", allEntries = true),
+            @CacheEvict(value = "employees", key = "#result")})
+    public Long deleteOfficialDetails(Long officialId){
         OfficialDetails officialDetails = officeDetailsRepository.findById(officialId).orElseThrow(() -> new NoSuchElementException("Official details Not Found!"));;
         officeDetailsRepository.deleteById(officialId);
+        return officialDetails.getEmployee().getEmployeeId();
     }
 }

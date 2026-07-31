@@ -32,7 +32,7 @@ public class BranchService {
         this.branchMapper = branchMapper;
     }
 
-    @Caching(evict = @CacheEvict(value = "branchList", allEntries = true))
+    @CacheEvict(value = "branchList", allEntries = true)
     public BranchResponseDto createBranch(BranchRequestDto branchRequestDto) {
         Company company = companyRepository.findById(branchRequestDto.companyId()).orElseThrow(() -> new NoSuchElementException("Company Id not found!"));
         Branch branch = branchMapper.toEntity(branchRequestDto);
@@ -45,6 +45,7 @@ public class BranchService {
         return branchMapper.toDtoList(branchRepository.findAll());
     }
 
+    @CacheEvict(value = "branchList", allEntries = true)
     public void replaceBranch(BranchReplaceReqDto branchReplaceReqDto, Long branchId) {
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         Company company = companyRepository.findById(branchReplaceReqDto.companyId()).orElseThrow(() -> new NoSuchElementException("Company Id not found!"));
@@ -54,6 +55,7 @@ public class BranchService {
         branchRepository.save(existingBranch);
     }
 
+    @CacheEvict(value = "branchList", allEntries = true)
     public void updateBranch(BranchUpdateReqDto branchUpdateReqDto, Long branchId) {
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         branchMapper.updateEntityFromDto(branchUpdateReqDto, existingBranch);
@@ -66,6 +68,7 @@ public class BranchService {
     }
 
 
+    @CacheEvict(value = "branchList", allEntries = true)
     public void deleteBranch(Long branchId) {
         Branch existingBranch = branchRepository.findById(branchId).orElseThrow(() -> new NoSuchElementException("Branch Id Not Found!"));
         existingBranch.getCompany().getBranches().remove(existingBranch);

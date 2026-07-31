@@ -28,7 +28,7 @@ public class RestClientSalaryService {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new NoSuchElementException("Employee not found"));
         SalaryDetailsDto salaryDetails = restClient.get()
-                .uri("/employee/{employeeId}",employee.getEmployeeId())
+                .uri("/get/{employeeId}",employee.getEmployeeId())
                 .retrieve()
                 .body(SalaryDetailsDto.class);
         RestClientEmployeeResDto employeeResponse = employeeMapper.toRestClientEmployeeResDto(employee);
